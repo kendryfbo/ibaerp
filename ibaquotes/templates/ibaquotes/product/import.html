@@ -1,0 +1,45 @@
+{% extends 'ibaquotes/base/base.html' %}
+{% load static %}
+
+{% block title %}
+    Import Product
+{% endblock title %}
+
+{% block content %}
+
+    <!-- Content Row -->
+    
+    <div class="row">
+    
+        <!-- Area Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Import Products File</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <form>
+
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file"  id="customFile">
+                                <label for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                    
+                        <button class="btn btn-light float-right">Upload</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <!-- Content Row -->
+
+{% endblock content %}
+
+

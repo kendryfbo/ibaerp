@@ -1,0 +1,148 @@
+{% extends 'ibaquotes/base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Create Product
+{% endblock title %}
+
+{% block content %}
+
+<!-- Content Row -->
+
+<div class="row">
+    
+    <div class="col-sm-12">
+
+        <div class="card">
+        
+            <div class="card-header  d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 text-primary">Create Product</h6>
+            </div>
+        
+            <div class="card-body">
+                
+                <form action={% url 'product-store' %} method="POST">
+
+                    {% csrf_token %}
+                    {{ form }}
+                    <br>
+                    <button type="submit" value="submit" class="btn btn-primary float-right">Save</button>
+                </form>
+                
+                {% comment %}
+
+                <form action={% url 'product-store' %} method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-2">
+
+                            <label for="pdid">PDID</label>
+                            <input type="text" class="form-control" id="pdid" name="pdid">
+
+                        </div>
+
+                        <div class="form-group offset-sm-4 col-sm-4">
+
+                            <label for="name">Product Name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-6">
+
+                            <label for="desc1">Description 1</label>
+                            <input type="text" class="form-control" id="desc1" name="desc1">
+
+                        </div>
+                        <div class="form-group col-sm-6">
+
+                            <label for="desc2">Description 2</label>
+                            <input type="text" class="form-control" id="desc2" name="desc2">
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-12">
+
+                            <label for="detail">Detail</label>
+                            <input type="text" class="form-control" id="detail" name="detail">
+
+                        </div>
+                        
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-12">
+
+                            <label for="remarks">Remarks</label>
+                            <input type="text" class="form-control" id="remarks" name="remarks">
+
+                        </div>
+                        
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-4">
+
+                            <label for="price">Price</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="price" name="price">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            
+                            <label for="price">Weight</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" id="weight" name="weight">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-sm-4">
+
+                            <label for="harmonizedcode">Harmonized Code</label>
+                            <input type="number" class="form-control" id="harmonizedcode" name="harmonizedcode">
+
+                        </div>
+                        
+                    </div>
+
+                   
+                    <button type="submit" value="submit" class="btn btn-primary float-right">Save</button>
+                </form>
+
+                {% endcomment %}
+            </div>
+        
+        </div>
+
+    </div>
+   
+
+    
+</div>
+
+<!-- Content Row -->
+
+{% endblock content %}

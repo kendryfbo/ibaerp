@@ -1,7 +1,7 @@
 {% load static %}
 
 <!-- Sidebar -->
-<ul class="navbar-nav bg-white sidebar sidebar-light accordion toggled" id="accordionSidebar">
+<ul class="navbar-nav bg-secondary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -27,11 +27,14 @@
             <span>Quotes</span>
         </a>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">
+            <div class="bg-secondary py-2 collapse-inner rounded">
+                <a class="collapse-item text-white" href="">
                     <i class="far fa-plus-square text-success"></i> New Quote
                 </a>
-                <a class="collapse-item" href="">
+                <a class="collapse-item text-white" href={% url 'agreement-create' %} >
+                    <i class="far fa-plus-square text-success"></i> New Agreement
+                </a>
+                <a class="collapse-item text-white" href="">
                     <i class="fas fa-search text-info"></i> Quotes History
                 </a>
             </div>
@@ -46,12 +49,12 @@
             <span>Products</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-secondary py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options:</h6>
-                <a class="collapse-item" href="">
+                <a class="collapse-item text-white" href="">
                     <i class="fas fa-list text-info"></i> Product List
                 </a>
-                <a class="collapse-item" href={% url 'product-import-file' %} >
+                <a class="collapse-item text-white" href={% url 'product-import-file' %} >
                     <i class="fas fa-file-upload text-success"></i> Import File</a>
             </div>
         </div>
@@ -65,11 +68,11 @@
             <span>Clients</span>
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-secondary py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options:</h6>
-                <a class="collapse-item" href="">
+                <a class="collapse-item text-white" href="">
                     <i class="far fa-plus-square text-success"></i> New Client</a>
-                <a class="collapse-item" href="">
+                <a class="collapse-item text-white" href="">
                     <i class="fas fa-list text-info"></i> Client List</a>
             </div>
         </div>

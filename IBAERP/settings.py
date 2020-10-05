@@ -31,13 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ibaquotes.apps.IbaquotesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ibaquotes.apps.IbaquotesConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,9 @@ feature is very handy for serving static files, especially in production
 settings.
 """
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+# Excel import-export library settings
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

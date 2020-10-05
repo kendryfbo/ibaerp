@@ -2,37 +2,42 @@ from django.db import models
 
 
 class ProductStatus(models.Model):
-
     name = models.CharField(max_length=20)
-    status = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
     
     def __str__(self):
-
         return self.name
+
+    class Meta: 
+        db_table = 'product_status'
+        verbose_name = 'Product Status'
+        verbose_name_plural = 'Product Status'
 
 class Product(models.Model):
 
-    id = models.AutoField(primary_key=True)
-    pdid = models.CharField(max_length=10)
+    pdid = models.CharField(max_length=10,unique=True)
     name = models.CharField(max_length=100)
-    desc1 = models.CharField(max_length=100)
-    desc2 = models.CharField(max_length=100)
-    detail = models.TextField()
-    remarks = models.TextField()
+    descr1 = models.TextField(max_length=100)
+    descr2 = models.TextField(max_length=100)
+    detail = models.TextField(max_length=150,null=True)
+    remarks = models.TextField(max_length=150,null=True)
     status = models.ForeignKey(ProductStatus,on_delete=models.SET_NULL,null=True)
     price= models.DecimalField(decimal_places=2,max_digits=10)
-    date = models.DateTimeField()
-    Handlager = models.IntegerField()
+    date = models.DateField()
+    handlager = models.IntegerField() # fix capital name
     lang_id = models.IntegerField()
     weight = models.DecimalField(decimal_places=2,max_digits=10)
-    ptype = models.CharField(max_length=10)
-    HarmonizedCode = models.IntegerField()
+    ptype = models.CharField(max_length=15)
+    harmonizedcode = models.IntegerField() # fix capital name
     eccn = models.CharField(max_length=10)
-    lkz = models.chareccn = models.CharField(max_length=2)
-    ag = models.chareccn = models.CharField(max_length=1)
-    imageurl = models.chareccn = models.CharField(max_length=100)
-    imagepath = models.chareccn = models.CharField(max_length=100)
+    lkz =  models.CharField(max_length=2)
+    ag = models.CharField(max_length=1)
+    imageurl = models.CharField(max_length=100,blank=True,default='')
+    imagepath = models.CharField(max_length=100,blank=True,default='')
 
     def __str__(self):
-
         return self.name
+
+    class Meta: 
+        db_table = 'product'
+        verbose_name = 'Product'

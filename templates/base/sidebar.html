@@ -31,7 +31,7 @@
                 <a class="collapse-item text-white" href="">
                     <i class="far fa-plus-square text-success"></i> New Quote
                 </a>
-                <a class="collapse-item text-white" href={% url 'agreement-create' %} >
+                <a class="collapse-item text-white" href={% url 'agreement-list' %} >
                     <i class="far fa-plus-square text-success"></i> New Agreement
                 </a>
                 <a class="collapse-item text-white" href="">
@@ -51,7 +51,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-secondary py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options:</h6>
-                <a class="collapse-item text-white" href="">
+                <a class="collapse-item text-white" href={% url 'product-list' %}>
                     <i class="fas fa-list text-info"></i> Product List
                 </a>
                 <a class="collapse-item text-white" href={% url 'product-import-file' %} >

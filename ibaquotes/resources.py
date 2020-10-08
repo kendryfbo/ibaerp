@@ -1,5 +1,5 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget, DateWidget, DecimalWidget
+from import_export.widgets import ForeignKeyWidget, DateWidget, DecimalWidget, CharWidget
 from .models import Product,ProductStatus
 
 
@@ -7,7 +7,8 @@ class ProductResource(resources.ModelResource):
 
     pdid = fields.Field(
         column_name='PdID', # column name on file
-        attribute='pdid',) # attribute on table
+        attribute='pdid',
+        widget=CharWidget()) # attribute on table
     name = fields.Field(
         column_name='Product', # column name on file
         attribute='name',) # attribute on table
@@ -37,7 +38,7 @@ class ProductResource(resources.ModelResource):
         widget=DateWidget('%Y.%m.%d'))
     Handlager = fields.Field(
         column_name='Handlager',
-        attribute='Handlager',)
+        attribute='handlager',)
     lang_id = fields.Field(
         column_name='lang_id',
         attribute='lang_id',)
@@ -49,7 +50,7 @@ class ProductResource(resources.ModelResource):
         attribute='ptype',)
     HarmonizedCode = fields.Field(
         column_name='HarmonizedCode',
-        attribute='HarmonizedCode',)
+        attribute='harmonizedcode',)
     eccn = fields.Field(
         column_name='ECCN',
         attribute='eccn',)

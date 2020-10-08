@@ -1,0 +1,76 @@
+{% extends 'ibaquotes/base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Product List
+{% endblock title %}
+
+{% block content %}
+
+<!-- Content Row -->
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+        </div>
+        <div class="card-body">
+            <table id="example" class="table table-bordered dataTabledisplay dateTable cell-border compact stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">pdID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Weight</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Harmonized Code</th>
+                        <th class="text-center">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td class="text-left">{{product.pdid}}</td>
+                        <td class="text-left">{{product.name}}</td>
+                        <td class="text-center">{{product.status}}</td>
+                        <td class="text-center">{{product.weight}}</td>
+                        <td class="text-center">{{product.date}}</td>
+                        <td class="text-center">{{product.harmonizedcode}}</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                <span class="text">Edit</span>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                                <span class="text">Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Content Row -->
+
+{% endblock content %}
+
+
+{% block custom_scripts %}
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+{% endblock custom_scripts %}

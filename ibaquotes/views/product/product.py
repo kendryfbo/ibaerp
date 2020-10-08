@@ -1,6 +1,14 @@
 from django.shortcuts import render, HttpResponse
 from ibaquotes.forms import CreateProductForm
+from ibaquotes.models.product import Product
 
+def product_list(request):
+
+    products = Product.objects.all();
+    context = {
+        'products': products
+    }
+    return render(request,'ibaquotes/product/list.html',context)
 def create_product(request):
 
     form = CreateProductForm()

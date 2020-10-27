@@ -1,14 +1,22 @@
+from decimal import Decimal
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget, DateWidget, DecimalWidget, CharWidget
+from import_export import widgets
 from .models import Product,ProductStatus
 
+class CustomDecimalWidget(widgets.DecimalWidget):
+    
+    
+    def clean(self, value, row=None, *args, **kwargs):
+        if self.is_empty(value):
+            return None
+        return Decimal(str("{0:.6f}".format(value)))
 
 class ProductResource(resources.ModelResource):
 
     pdid = fields.Field(
         column_name='PdID', # column name on file
         attribute='pdid',
-        widget=CharWidget()) # attribute on table
+        widget=CustomDecimalWidget()) # attribute on table
     name = fields.Field(
         column_name='Product', # column name on file
         attribute='name',) # attribute on table
@@ -27,15 +35,15 @@ class ProductResource(resources.ModelResource):
     status_id = fields.Field(
         column_name='ProductStatus',
         attribute='status',
-        widget=ForeignKeyWidget(ProductStatus, 'name'))
+        widget=widgets.ForeignKeyWidget(ProductStatus, 'name'))
     price = fields.Field(
         column_name='Price',
         attribute='price',
-        widget=DecimalWidget())
+        widget=widgets.DecimalWidget())
     date = fields.Field(
         column_name='TIMESTAMP',
         attribute='date',
-        widget=DateWidget('%Y.%m.%d'))
+        widget=widgets.DateWidget('%Y.%m.%d'))
     Handlager = fields.Field(
         column_name='Handlager',
         attribute='handlager',)

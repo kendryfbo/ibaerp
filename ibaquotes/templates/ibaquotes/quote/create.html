@@ -1,0 +1,305 @@
+{% extends 'ibaquotes/base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Create Quotation
+{% endblock title %}
+
+{% block content %}
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <div id="app" class="card">
+
+            <div class="card-header  d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 text-primary">Create Quotation</h6>
+            </div>
+
+            <div class="card-body">
+
+                <form action={% url 'quote-store' %} method="POST">
+
+                    {% csrf_token %}
+
+                    <div>
+
+                        <div class="form-group row">
+
+                            <label class="col-md-1 col-form-label text-right" for="client">Client:</label>
+                            
+                            <div class="col-md-4">
+                                <select class="form-control selectpicker" data-width="false" data-live-search="true" v-model="clientId" id="client" v-on:change="updateClient">
+                                    <option v-for="cl in clients" v-bind:value="cl.pk">
+                                        [[cl.fields.company]]
+                                    </option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-1 offset-md-1 col-form-label text-right " for="date">Date:</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="date" id="date">
+                            </div>
+                            
+                        </div>
+                        <div class="form-group row">
+
+                            <label class="col-md-1 col-form-label text-right" for="contact">Contact:</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="contact" id="contact" :value="clientContact" readonly>
+                            </div>
+
+                            <label class="col-md-1 offset-md-3 col-form-label text-right" for="executive">Executive:</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" name="executive" id="executive">
+                            </div>
+                            
+
+                        </div>
+                        <div class="form-group row">
+
+                            <label class="col-md-1 col-form-label text-right" for="address">Address:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="address" id="address" :value="clientAddress" readonly>
+                            </div>
+
+                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="phone">Phone:</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="phone" id="phone">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                        
+                            <label class="col-md-1 col-form-label text-right" for="Offer">Offer:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Offer" id="Offer" value="iba-lat10381_1.COMPAÑIA_ibaRackline_Juan">
+                            </div>
+                            
+                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="fax">Fax:</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="fax" id="fax">
+                            </div>
+                        
+                        </div>
+                        <div class="form-group row">
+                        
+                            <label class="col-md-1 col-form-label text-right" for="Request">request:</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Request" id="Request" value="200528-2038 ibaRackline">
+                            </div>
+
+                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" name="email" id="email">
+                            </div>
+                        
+                        </div>
+                        <hr />
+
+                            <div class="form-group row">
+                                
+                                <div class="col-md-12 bg-light mb-2">
+                                    <h4>Quotes conditions</h4>
+                                </div>
+
+                                <label class="col-md-2 col-form-label text-right" for="quotesAgreements">quotes Agreements:</label>
+                            
+                                <div class="col-md-4">
+                                    <select class="form-control selectpicker" data-width="false" data-live-search="true" v-model="quoteAgreeId" id="quotesAgreements">
+                                        <option v-for="qa in quotesAgreements" v-bind:value="qa.pk">
+                                            [[qa.fields.name]]
+                                        </option>
+                                    </select>
+                                </div>
+                            
+                                <label class="col-md-1 offset-md-1 col-form-label text-right " for="expDate">Exp Date:</label>
+                                <div class="col-md-2">
+                                    <input type="date" class="form-control" name="expDate" id="expDate">
+                                </div>
+                            
+                            </div>
+
+                            <div class="form-group row">
+                            
+                                <label class="col-md-2 col-form-label text-right" for="description">Description:</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                </div>
+                            
+                            </div>
+                            <div class="form-group row">
+                            
+                                <label class="col-md-2 col-form-label text-right" for="description">Payment Condition:</label>
+                                <div class="col-md-4">
+                                    <input type="textarea" class="form-control" name="description" id="description" value="">
+                                </div>
+                                <label class="col-md-2 col-form-label text-right" for="description">Shipping Terms:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="description" id="description" value="">
+                                </div>
+                            
+                            </div>
+
+                            <!-- Items -->
+                            <select style="display: none;" name="items" multiple required>
+                                <option v-for="group in groups" selected>
+                                    [[group]]
+                                </option>
+                            </select>
+                            <!-- /items -->
+
+                        <hr />
+                        <!-- Products Headers -->
+                        <div class="form-group row">
+
+                            <!-- Button to Open the Modal -->
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGroupModal">
+                                    Create Group
+                                </button>
+                            </div>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="addGroupModal" aria-labelledby="addGroupModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Group Creation</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 col-form-label text-right" for="inputGroupName">Group Name: </label>
+                                                <div class="col-sm-5">
+                                                    <input class="form-control mx-sm-6" type="text" id="inputGroupName" v-model="inputGroupName">
+                                                </div>
+                                                <div class="btn-group col-sm-4">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary" v-on:click="createNewGroup" data-dismiss="modal" >Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+
+                            <div v-for="group in groups">
+                                <div class="card">
+                                
+                                    <div class="card-header  d-flex flex-row align-items-center">
+                                
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-light btn-small" v-on:click="removeGroup(group.id)"><i
+                                                    class="fas fa-minus-circle text-danger"></i></button>
+                                        </div>
+                                
+                                        <div class="col-sm-2 text-primary">
+                                            <h6 class="text-primary">Group: [[group.id]] </h6>
+                                        </div>
+                                
+                                        <div class="col-sm-7">
+                                            <label class="text-primary"> [[group.name]] </label>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-inline">
+                                        
+                                            <label for="product">Product: </label>
+                                            
+                                            <select class="form-control col-sm-4 mr-sm-2 selectpicker"data-width="false" data-live-search="true" v-model="prodId" id="product">
+                                                <option v-for="prod in products" :value="prod.pk">
+                                                    [[prod.fields.name]]
+                                                </option>
+                                            </select>              
+                                            
+                                            <label for="productQuantity">Quantity: </label>
+                                            <input type="number" class="form-control col-sm-1 mr-sm-2" v-model="prodQuantity">
+                                            
+                                            <label for="productQuantity">Price: </label>
+                                            <input type="number" step="0.01" class="form-control col-sm-1 mr-sm-2" v-model="prodPrice">
+                                            <button type="button" class="btn btn-primary my-1" v-on:click="addProductToGroup(group.id)">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                
+                                        <table v-if="group.products.length" class="table table-sm table-hover">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Code</th>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Weight</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr v-for="prod in group.products">
+                                                    <td>
+                                                        <button type="button" class="btn btn-light btn-small" v-on:click="removeProductFromGroup(group.id,prod.id)">
+                                                            <i class="fas fa-minus-circle text-danger"></i>
+                                                        </button>
+                                                        [[prod.id]]
+                                                    </td>
+                                                    <td>[[prod.fields.pdid]]</td>
+                                                    <td>[[prod.fields.name]]</td>
+                                                    <td>[[prod.fields.weight]]</td>
+                                                    <td>[[prod.quantity]]</td>
+                                                    <td>[[prod.price]]</td>
+                                                    <td>[[prod.total]]</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" value="submit" class="btn btn-primary float-right mr-4">Save</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Content Row -->
+
+{% endblock content %}
+
+{% block custom_scripts %}
+
+<script src={% static 'js/vue/vue.js' %}></script>
+
+<script>
+
+   var clients= {{clients|safe}};
+   var products= {{ products|safe}};
+   var quotesAgreements= {{ quotesAgreements|safe}};
+
+   
+</script>
+
+<script src={% static 'js/ibaquotes/quotes/create.js' %}></script>
+
+{% endblock custom_scripts %}

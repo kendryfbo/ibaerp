@@ -4,7 +4,7 @@ from ibaquotes import views
 
 urlpatterns = [
 
-    path('', views.index),
+    path('', views.index, name='index'),
     path('templatetest/', views.templatetest),
 
     path('product/list', views.product_list, name='product-list'),
@@ -14,5 +14,12 @@ urlpatterns = [
 
     path('agreement/list', views.agreement_list, name='agreement-list'),
     path('agreement/create', views.agreement_create, name='agreement-create'),
-    path('agreement/store', views.agreement_store, name='agreement-store')
+    path('agreement/store', views.agreement_store, name='agreement-store'),
+    
+    # Quotes PATH
+    path('list/', views.quote_list, name='quote-list'),
+    path('create/', views.quote_create, name='quote-create'),
+    path('store/', views.quote_store, name='quote-store'),
+
+
 ]

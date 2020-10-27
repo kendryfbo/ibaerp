@@ -41,3 +41,4 @@ class Product(models.Model):
     class Meta: 
         db_table = 'product'
         verbose_name = 'Product'
+    

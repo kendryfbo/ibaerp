@@ -147,8 +147,5 @@ settings.
 """
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
-
 # Excel import-export library settings
-
 IMPORT_EXPORT_USE_TRANSACTIONS = True

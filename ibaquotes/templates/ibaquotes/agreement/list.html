@@ -14,8 +14,10 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Quotes Agreement list</h6>
+        <div class="card-header py-6">
+            <h6 class="m-0 font-weight-bold text-primary">QUOTES AGREEMENT LIST</h6>
+            <a class="float-right btn btn-primary" href={% url 'agreement-create' %} role="button">Create Agreement</a>
+
         </div>
         <div class="card-body">
             <table id="example" class="table table-bordered dataTabledisplay dateTable cell-border compact stripe" style="width:100%">

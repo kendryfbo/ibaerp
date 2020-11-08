@@ -8,6 +8,7 @@ def agreement_list(request):
     context = {
         'agreements': agreements
     }
+
     return render(request,'ibaquotes/agreement/list.html',context)
 
 def agreement_create(request):

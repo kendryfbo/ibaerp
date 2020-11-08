@@ -26,253 +26,353 @@ Create Quotation
 
                     {% csrf_token %}
 
-                    <div>
+                    <div class="form-group row">
 
-                        <div class="form-group row">
+                        <label class="col-md-1 col-form-label text-right" for="client">Client:</label>
 
-                            <label class="col-md-1 col-form-label text-right" for="client">Client:</label>
-                            
-                            <div class="col-md-4">
-                                <select class="form-control selectpicker" data-width="false" data-live-search="true" v-model="clientId" id="client" v-on:change="updateClient">
-                                    <option v-for="cl in clients" v-bind:value="cl.pk">
-                                        [[cl.fields.company]]
-                                    </option>
-                                </select>
-                            </div>
-
-                            <label class="col-md-1 offset-md-1 col-form-label text-right " for="date">Date:</label>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="date" id="date">
-                            </div>
-                            
-                        </div>
-                        <div class="form-group row">
-
-                            <label class="col-md-1 col-form-label text-right" for="contact">Contact:</label>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="contact" id="contact" :value="clientContact" readonly>
-                            </div>
-
-                            <label class="col-md-1 offset-md-3 col-form-label text-right" for="executive">Executive:</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" name="executive" id="executive">
-                            </div>
-                            
-
-                        </div>
-                        <div class="form-group row">
-
-                            <label class="col-md-1 col-form-label text-right" for="address">Address:</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="address" id="address" :value="clientAddress" readonly>
-                            </div>
-
-                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="phone">Phone:</label>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="phone" id="phone">
-                            </div>
-
-                        </div>
-
-                        <div class="form-group row">
-                        
-                            <label class="col-md-1 col-form-label text-right" for="Offer">Offer:</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="Offer" id="Offer" value="iba-lat10381_1.COMPAÑIA_ibaRackline_Juan">
-                            </div>
-                            
-                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="fax">Fax:</label>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="fax" id="fax">
-                            </div>
-                        
-                        </div>
-                        <div class="form-group row">
-                        
-                            <label class="col-md-1 col-form-label text-right" for="Request">request:</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="Request" id="Request" value="200528-2038 ibaRackline">
-                            </div>
-
-                            <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" name="email" id="email">
-                            </div>
-                        
-                        </div>
-                        <hr />
-
-                            <div class="form-group row">
-                                
-                                <div class="col-md-12 bg-light mb-2">
-                                    <h4>Quotes conditions</h4>
-                                </div>
-
-                                <label class="col-md-2 col-form-label text-right" for="quotesAgreements">quotes Agreements:</label>
-                            
-                                <div class="col-md-4">
-                                    <select class="form-control selectpicker" data-width="false" data-live-search="true" v-model="quoteAgreeId" id="quotesAgreements">
-                                        <option v-for="qa in quotesAgreements" v-bind:value="qa.pk">
-                                            [[qa.fields.name]]
-                                        </option>
-                                    </select>
-                                </div>
-                            
-                                <label class="col-md-1 offset-md-1 col-form-label text-right " for="expDate">Exp Date:</label>
-                                <div class="col-md-2">
-                                    <input type="date" class="form-control" name="expDate" id="expDate">
-                                </div>
-                            
-                            </div>
-
-                            <div class="form-group row">
-                            
-                                <label class="col-md-2 col-form-label text-right" for="description">Description:</label>
-                                <div class="col-md-4">
-                                    <textarea class="form-control" id="description" rows="3"></textarea>
-                                </div>
-                            
-                            </div>
-                            <div class="form-group row">
-                            
-                                <label class="col-md-2 col-form-label text-right" for="description">Payment Condition:</label>
-                                <div class="col-md-4">
-                                    <input type="textarea" class="form-control" name="description" id="description" value="">
-                                </div>
-                                <label class="col-md-2 col-form-label text-right" for="description">Shipping Terms:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="description" id="description" value="">
-                                </div>
-                            
-                            </div>
-
-                            <!-- Items -->
-                            <select style="display: none;" name="items" multiple required>
-                                <option v-for="group in groups" selected>
-                                    [[group]]
+                        <div class="col-md-4">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true"
+                                v-model="clientId" name=client id="client" @change="updateClient" required>
+                                <option v-for="cl in clients" v-bind:value="cl.pk">
+                                    [[cl.fields.company]]
                                 </option>
                             </select>
-                            <!-- /items -->
-
-                        <hr />
-                        <!-- Products Headers -->
-                        <div class="form-group row">
-
-                            <!-- Button to Open the Modal -->
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGroupModal">
-                                    Create Group
-                                </button>
-                            </div>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="addGroupModal" aria-labelledby="addGroupModal" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Group Creation</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <div class="form-group row">
-                                                <label class="col-md-3 col-form-label text-right" for="inputGroupName">Group Name: </label>
-                                                <div class="col-sm-5">
-                                                    <input class="form-control mx-sm-6" type="text" id="inputGroupName" v-model="inputGroupName">
-                                                </div>
-                                                <div class="btn-group col-sm-4">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary" v-on:click="createNewGroup" data-dismiss="modal" >Add</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="form-group col-sm-12">
+                        <label class="col-md-1 offset-md-1 col-form-label text-right " for="date">Date:</label>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" name="date" id="date" required>
+                        </div>
 
-                            <div v-for="group in groups">
-                                <div class="card">
-                                
-                                    <div class="card-header  d-flex flex-row align-items-center">
-                                
-                                        <div class="col-sm-1">
-                                            <button type="button" class="btn btn-light btn-small" v-on:click="removeGroup(group.id)"><i
-                                                    class="fas fa-minus-circle text-danger"></i></button>
-                                        </div>
-                                
-                                        <div class="col-sm-2 text-primary">
-                                            <h6 class="text-primary">Group: [[group.id]] </h6>
-                                        </div>
-                                
-                                        <div class="col-sm-7">
-                                            <label class="text-primary"> [[group.name]] </label>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-inline">
-                                        
-                                            <label for="product">Product: </label>
-                                            
-                                            <select class="form-control col-sm-4 mr-sm-2 selectpicker"data-width="false" data-live-search="true" v-model="prodId" id="product">
-                                                <option v-for="prod in products" :value="prod.pk">
-                                                    [[prod.fields.name]]
-                                                </option>
-                                            </select>              
-                                            
-                                            <label for="productQuantity">Quantity: </label>
-                                            <input type="number" class="form-control col-sm-1 mr-sm-2" v-model="prodQuantity">
-                                            
-                                            <label for="productQuantity">Price: </label>
-                                            <input type="number" step="0.01" class="form-control col-sm-1 mr-sm-2" v-model="prodPrice">
-                                            <button type="button" class="btn btn-primary my-1" v-on:click="addProductToGroup(group.id)">Add</button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                
-                                        <table v-if="group.products.length" class="table table-sm table-hover">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Code</th>
-                                                    <th scope="col">Product</th>
-                                                    <th scope="col">Weight</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                    </div>
+                    <div class="form-group row">
 
-                                                <tr v-for="prod in group.products">
-                                                    <td>
-                                                        <button type="button" class="btn btn-light btn-small" v-on:click="removeProductFromGroup(group.id,prod.id)">
-                                                            <i class="fas fa-minus-circle text-danger"></i>
-                                                        </button>
-                                                        [[prod.id]]
-                                                    </td>
-                                                    <td>[[prod.fields.pdid]]</td>
-                                                    <td>[[prod.fields.name]]</td>
-                                                    <td>[[prod.fields.weight]]</td>
-                                                    <td>[[prod.quantity]]</td>
-                                                    <td>[[prod.price]]</td>
-                                                    <td>[[prod.total]]</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                        <label class="col-md-1 col-form-label text-right" for="contact">Contact:</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="contact" id="contact" :value="clientContact"
+                                readonly required>
+                        </div>
+
+                        <label class="col-md-1 offset-md-3 col-form-label text-right" for="executive">Executive:</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="executive" id="executive" required>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-1 col-form-label text-right" for="address">Address:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="address" id="address" :value="clientAddress"
+                                readonly required>
+                        </div>
+
+                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="phone">Phone:</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="phone" id="phone" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="offer" id="offer"
+                                value="iba-lat10381_1.COMPAÑIA_ibaRackline_Juan" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-1 col-form-label text-right" for="request">request:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="request" id="request"
+                                value="200528-2038 ibaRackline" required>
+                        </div>
+
+                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="email" id="email" required>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+
+                        <div class="col-md-12 bg-light mb-2">
+                            <h4>Quotes conditions</h4>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="quotesAgreements">quotes
+                            Agreements:</label>
+
+                        <div class="col-md-4">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true"
+                                v-model="quoteAgreeId" id="quotesAgreements" @change="updateQuotesAgreement" >
+                                <option v-for="qa in quotesAgreements" v-bind:value="qa.pk">
+                                    [[qa.fields.name]]
+                                </option>
+                            </select>
+                        </div>
+
+                        <label class="col-md-1 offset-md-1 col-form-label text-right " for="expDate">Exp
+                            Date:</label>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" name="expDate" id="expDate" required>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="paymentCondition">Payment
+                            Condition:</label>
+                        <div class="col-md-4">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true"
+                                v-model="paymentConditionId" name="paymentCondition" id="paymentCondition" required>
+                                <option v-for="pq in paymentConditions" v-bind:value="pq.pk">
+                                    [[pq.fields.name]]
+                                </option>
+                            </select>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="shippingTerm">Shipping Terms:</label>
+                        <div class="col-md-4">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true"
+                                v-model="shippingTermId" name="shippingTerm" id="shippingTerm" required>
+                                <option v-for="st in shippingTerms" v-bind:value="st.pk">
+                                    [[st.fields.name]]
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="currency">Currency:</label>
+                        <div class="col-md-2">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true"
+                                v-model="currencyId" name="currency" id="currency" @change="updateCurrency" required>
+                                <option v-for="currency in currencies" v-bind:value="currency.pk">
+                                    [[currency.fields.name +' - ' + currency.fields.code]]
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="agreementDescrip">Description:</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="agreementDescrip" rows="8" name="description"
+                                v-model="agreementDescrip" required></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Items -->
+                    <select style="display: none;" name="items" multiple>
+                        <option v-for="group in groups" selected>
+                            [[group]]
+                        </option>
+                    </select>
+                    <!-- /items -->
+
+                    <hr />
+                    <!-- Products Headers -->
+                    <div class="form-group row">
+
+                        <!-- Button to Open the Modal -->
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#addGroupModal">
+                                Create Group
+                            </button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="addGroupModal" aria-labelledby="addGroupModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Group Creation</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+
+                                        <form>
+                                            <div class="form-group">
+                                                <label class="col-form-label text-right" for="inputGroupName">Group Name:</label>
+                                                <input class="form-control" type="text" id="inputGroupName" v-model="inputGroupName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label text-right" for="inputGroupTax">Tax:</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="0.01" class="form-control" id="inputGroupTax" v-model="inputGroupTax">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">	
+                                                <div class="btn-group col-sm-4">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary" v-on:click="createNewGroup" data-dismiss="modal">Add</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group col-sm-12">
 
+                        <div v-for="group in groups">
+                            <div class="card">
+
+                                <div class="card-header  d-flex flex-row align-items-center">
+
+                                    <div class="col-sm-1">
+                                        <button type="button" class="btn btn-light btn-small"
+                                            v-on:click="removeGroup(group.id)"><i
+                                                class="fas fa-minus-circle text-danger"></i></button>
+                                    </div>
+
+                                    <div class="col-sm-2 text-primary">
+                                        <label class="text-primary">Group: [[group.id]] </label>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="text-primary"> [[group.name]] </label>
+                                    </div>
+                                    
+                                    <div class="form-inline col-sm-1 offset-md-4 text-right">
+                                        <label>Group Tax: </label>
+                                        <label class="text-primary font-weight-bold">  [[group.taxPercentage]]% </label>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-inline">
+
+                                        <label for="product">Product: </label>
+                                        
+                                        <select class="form-control col-sm-4 mr-sm-2 selectpicker" data-width="false"
+                                        data-live-search="true" id="product" v-model="prodId" @change="loadProductDetail(prodId)">
+                                            <option v-for="prod in products" :value="prod.pk">
+                                                [[prod.fields.pdid + ' - ' + prod.fields.name]]
+                                            </option>
+                                        </select>
+                                    
+                                        <label for="productQuantity">Quantity: </label>
+                                        <input type="number" class="form-control col-sm-1 mr-sm-2"
+                                            v-model="prodQuantity">
+
+                                        <label for="productQuantity">Price: </label>
+                                        <div class="col-sm-2 mr-sm-2">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">[[currencySymbol]]</span>
+                                                </div>
+                                                <input type="number" step="0.01" class="form-control"
+                                                    v-model="prodPrice">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary my-1"
+                                            v-on:click="addProductToGroup(group.id)">Add</button>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="prodDetail">Details: </label>
+                                        <textarea class="form-control" id="prodDetail" rows="8" v-model="prodDetail" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <table v-if="group.products.length" class="table table-sm table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="align-middle text-center" scope="col">#</th>
+                                                <th class="align-middle text-center" scope="col">image</th>
+                                                <th class="align-middle text-center" scope="col">Code</th>
+                                                <th class="align-middle text-center" scope="col">Product</th>
+                                                <th class="align-middle text-center" scope="col">Description</th>
+                                                <th class="align-middle text-center" scope="col">Weight</th>
+                                                <th class="align-middle text-center" scope="col">Quantity</th>
+                                                <th class="align-middle text-center" scope="col">Price</th>
+                                                <th class="align-middle text-center" scope="col">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr v-for="prod in group.products">
+                                                <td class="align-middle">
+                                                    <button type="button" class="btn btn-light btn-small"
+                                                        v-on:click="removeProductFromGroup(group.id,prod.id)">
+                                                        <i class="fas fa-minus-circle text-danger"></i>
+                                                    </button>
+                                                    [[prod.id]]
+                                                </td>
+                                                <td class="align-middle text-center"><img width="100" height="100"
+                                                        v-bind:src=[[prod.fields.imageurl]] alt="..."
+                                                        class="rounded mx-auto d-block"></td>
+                                                <td class="align-middle text-center">[[prod.fields.pdid]]</td>
+                                                <td class="align-middle text-center">[[prod.fields.name]]</td>
+                                                <td class="align-middle text-left" v-html="prod.detail"><h6></h6></td>
+                                                <td class="align-middle text-center">[[prod.fields.weight]]</td>
+                                                <td class="align-middle text-center">[[prod.quantity]]</td>
+                                                <td class="align-middle text-center">
+                                                    [[formatCurrencyNumber(prod.price)]]</td>
+                                                <td class="align-middle text-center">
+                                                    [[formatCurrencyNumber(prod.total)]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class=" col-md-3 offset-md-9">
+                            <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+                                
+                                <tr>
+                                    <th colspan="2"class="bg-light text-center text-primary">SUMMARY</th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-right">Total Groups:</th>
+                                    <th class="text-right input-td">[[formatCurrencyNumber(subtotal)]]</th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-right">Total Weight Kg</th>
+                                    <th class="text-right input-td">[[numberFormat(totalWeight)]] Kg</th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-right">Taxes:</th>
+                                    <th class="text-right input-td">[[formatCurrencyNumber(taxes)]]</th>
+                              
+                                </tr>
+                                <tr>
+                                    <th colspan="2" class=""></th>
+                                </tr>
+                        
+                                <tr>
+                                    <th class="bg-light text-right">TOTAL:</th>
+                                    <th class="bg-light text-right" >[[formatCurrencyNumber(total)]]</th>
+                                </tr>
+                        
+                            </table>
+                        </div>
+
+                    </div>
                     <button type="submit" value="submit" class="btn btn-primary float-right mr-4">Save</button>
                 </form>
 
@@ -293,11 +393,14 @@ Create Quotation
 
 <script>
 
-   var clients= {{clients|safe}};
-   var products= {{ products|safe}};
-   var quotesAgreements= {{ quotesAgreements|safe}};
+    var clients = {{ clients| safe}};
+    var products = {{ products| safe}};
+    var quotesAgreements = {{ quotesAgreements| safe}};
+    var paymentConditions = {{ paymentConditions| safe}};
+    var shippingTerms = {{ shippingTerms| safe}};
+    var currencies = {{ currencies| safe}};
 
-   
+
 </script>
 
 <script src={% static 'js/ibaquotes/quotes/create.js' %}></script>

@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
 from .resources import ProductResource
-from ibaquotes.models import Product, ProductStatus, ShippingTerm, PaymentCondition, QuotesAgreement, Client, ClientStatus
+from ibaquotes.models import Product, ProductStatus, ShippingTerm, PaymentCondition 
+from ibaquotes.models import QuotesAgreement, Client, ClientStatus, Currency
+from ibaquotes.models import Quote, QuoteDetail
 
 
 admin.site.site_header = 'IBAERP Admin Dashboard'
@@ -29,3 +31,6 @@ admin.site.register(PaymentCondition)
 admin.site.register(QuotesAgreement)
 admin.site.register(ClientStatus)
 admin.site.register(Client)
+admin.site.register(Currency)
+admin.site.register(Quote)
+admin.site.register(QuoteDetail)

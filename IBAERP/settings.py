@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ibaquotes.apps.IbaquotesConfig',
+    'ibaquotes',
     'import_export',
 ]
 
@@ -147,8 +147,5 @@ settings.
 """
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
-
 # Excel import-export library settings
-
 IMPORT_EXPORT_USE_TRANSACTIONS = True

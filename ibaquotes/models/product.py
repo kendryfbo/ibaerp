@@ -15,6 +15,9 @@ class ProductStatus(models.Model):
 
 class Product(models.Model):
 
+    class Meta: 
+        verbose_name = 'Product'
+
     pdid = models.CharField(max_length=10,unique=True)
     name = models.CharField(max_length=100)
     descr1 = models.TextField(max_length=100)
@@ -37,7 +40,4 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-    class Meta: 
-        db_table = 'product'
-        verbose_name = 'Product'
+    

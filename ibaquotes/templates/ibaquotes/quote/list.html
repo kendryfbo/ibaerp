@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    Quotes Agreement List
+    Quotes
 {% endblock title %}
 
 {% block content %}
@@ -14,29 +14,33 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-6">
-            <h6 class="m-0 font-weight-bold text-primary">QUOTES AGREEMENT LIST</h6>
-            <a class="float-right btn btn-primary" href={% url 'agreement-create' %} role="button">Create Agreement</a>
-
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Quotes</h6>
         </div>
         <div class="card-body">
             <table id="example" class="table table-bordered dataTabledisplay dateTable cell-border compact stripe" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Shipping</th>
-                        <th>Payment</th>
-                        <th>Active</th>
+                        <th>Offer</th>
+                        <th>Request</th>
+                        <th>Client</th>
+                        <th>Payment condition</th>
+                        <th>Shipping terms</th>
                         <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for agreement in agreements %}
+                    {% for quote in quotes %}
                     <tr>
-                        <td>{{agreement.name}}</td>
-                        <td>{{agreement.shipping_terms}}</td>
-                        <td>{{agreement.payment_condition}}</td>
-                        <td>{{agreement.active}}</td>
+                        <td>
+                            <a class="" href={% url 'quote-show' quote.pk %}>
+                                {{quote.offer}}
+                            </a>
+                        </td>
+                        <td>{{quote.request}}</td>
+                        <td>{{quote.client.company}}</td>
+                        <td>{{quote.payment_condition.name}}</td>
+                        <td>{{quote.shipping_term.name}}</td>
                         <td class="">
                             <a href="#" class="btn btn-warning btn-icon-split">
                                 <span class="icon text-white-50">

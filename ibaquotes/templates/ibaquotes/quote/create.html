@@ -55,7 +55,7 @@ Create Quotation
 
                         <label class="col-md-1 offset-md-3 col-form-label text-right" for="executive">Executive:</label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" name="executive" id="executive" required>
+                            <input type="text" class="form-control" name="executive" id="executive" :value="configData[0].fields.executive" required>
                         </div>
 
 
@@ -70,17 +70,26 @@ Create Quotation
 
                         <label class="col-md-1 offset-md-1 col-form-label text-right" for="phone">Phone:</label>
                         <div class="col-md-2">
-                            <input type="text" class="form-control" name="phone" id="phone" required>
+                            <input type="text" class="form-control" name="phone" id="phone" :value="configData[0].fields.phone" required>
                         </div>
 
                     </div>
 
                     <div class="form-group row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="number" id="number" :value="lastQuoteNumber"required hidden>
+                        </div>
+                    </div>
+                    <div class="form-group row">
 
                         <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="offer" id="offer"
-                                value="iba-lat10381_1.COMPAÑIA_ibaRackline_Juan" required>
+                            <input type="text" class="form-control" name="offer" id="offer" :value="configData[0].fields.offer_alias + lastQuoteNumber" required>
+                        </div>
+
+                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="email" id="email" :value="configData[0].fields.email" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -89,11 +98,6 @@ Create Quotation
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="request" id="request"
                                 value="200528-2038 ibaRackline" required>
-                        </div>
-
-                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" name="email" id="email" required>
                         </div>
 
                     </div>
@@ -204,7 +208,7 @@ Create Quotation
                                     <!-- Modal body -->
                                     <div class="modal-body">
 
-                                        <form>
+                                        <div>
                                             <div class="form-group">
                                                 <label class="col-form-label text-right" for="inputGroupName">Group Name:</label>
                                                 <input class="form-control" type="text" id="inputGroupName" v-model="inputGroupName">
@@ -225,7 +229,7 @@ Create Quotation
                                                     <button type="button" class="btn btn-primary" v-on:click="createNewGroup" data-dismiss="modal">Add</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -253,9 +257,9 @@ Create Quotation
                                         <label class="text-primary"> [[group.name]] </label>
                                     </div>
                                     
-                                    <div class="form-inline col-sm-1 offset-md-4 text-right">
-                                        <label>Group Tax: </label>
-                                        <label class="text-primary font-weight-bold">  [[group.taxPercentage]]% </label>
+                                    <div class="form-inline col-sm-2 offset-md-3 text-right">
+                                        <label class="col-form-label col-form-label-lg">Group Tax: </label>
+                                        <label class="text-primary font-weight-bold col-form-label col-form-label-lg">[[group.taxPercentage]]% </label>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -290,7 +294,7 @@ Create Quotation
 
                                     <div class="form-group">
                                         <label for="prodDetail">Details: </label>
-                                        <textarea class="form-control" id="prodDetail" rows="8" v-model="prodDetail" required></textarea>
+                                        <textarea class="form-control" id="prodDetail" rows="8" v-model="prodDetail"></textarea>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -373,7 +377,7 @@ Create Quotation
                         </div>
 
                     </div>
-                    <button type="submit" value="submit" class="btn btn-primary float-right mr-4">Save</button>
+                    <button type="submit" class="btn btn-primary float-right mr-4">Save</button>
                 </form>
 
             </div>
@@ -399,6 +403,8 @@ Create Quotation
     var paymentConditions = {{ paymentConditions| safe}};
     var shippingTerms = {{ shippingTerms| safe}};
     var currencies = {{ currencies| safe}};
+    var lastQuoteNumber = {{ lastQuoteNumber| safe}};
+    var configData = {{ configData| safe}};
 
 
 </script>

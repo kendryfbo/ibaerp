@@ -20,6 +20,8 @@ var app = new Vue({
         paymentConditions: paymentConditions,
         shippingTerms: shippingTerms,
         currencies: currencies,
+        lastQuoteNumber: lastQuoteNumber,
+        configData: configData,
         prodId: '',
         prodDetail: '',
         prodPrice: '',

@@ -269,7 +269,7 @@ Create Quotation
                                         
                                         <select class="form-control col-sm-4 mr-sm-2 selectpicker" data-width="false"
                                         data-live-search="true" id="product" v-model="prodId" @change="loadProductDetail(prodId)">
-                                            <option v-for="prod in products" :value="prod.pk">
+                                            <option v-for="prod in products" :value="prod.pk" v-bind:data-subtext="">
                                                 [[prod.fields.pdid + ' - ' + prod.fields.name]]
                                             </option>
                                         </select>

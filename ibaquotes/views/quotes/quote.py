@@ -27,14 +27,15 @@ def quote_list(request):
 def quote_create(request):
 
     clients = serializers.serialize('json',Client.objects.all())
-    products = serializers.serialize('json',Product.objects.all())
+    products = Product.objects.all()
+    products.prefetch_related('status')
+    products = serializers.serialize('json',products)
     quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
     paymentConditions = serializers.serialize('json',PaymentCondition.objects.all())
     shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
     currencies = serializers.serialize('json',Currency.objects.all())
     config = ConfigData.objects.first() # added [] to turn it into a list
     configData = serializers.serialize('json',[config]) # added [] to turn it into a list
-
     lastQuoteNumber = Quote.objects.values_list('number', flat=True).latest('created_at')
     if not (lastQuoteNumber):
         lastQuoteNumber = config.offer_number
@@ -50,6 +51,7 @@ def quote_create(request):
         'configData': configData,
         'lastQuoteNumber': lastQuoteNumber,
     }
+
     return render(request,'ibaquotes/quote/create.html',context)
 
 @transaction.atomic

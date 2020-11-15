@@ -27,7 +27,7 @@ Show Quotation
                     {% csrf_token %}
 
                     <div class="form-group row">
-                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' %}>
+                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' quote.pk %}>
                             <i class="far fa-file-pdf"></i> Export
                         </a>
                     </div>

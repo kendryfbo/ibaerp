@@ -22,7 +22,7 @@ Create Quotation
 
             <div class="card-body">
 
-                <form action={% url 'quote-store' %} method="POST">
+                <form action={% url 'quote-update' quoteId %} method="POST">
 
                     {% csrf_token %}
 
@@ -41,7 +41,7 @@ Create Quotation
 
                         <label class="col-md-1 offset-md-1 col-form-label text-right " for="date">Date:</label>
                         <div class="col-md-2">
-                            <input type="date" class="form-control" name="date" id="date" required>
+                            <input type="date" class="form-control" name="date" id="date" data-date-format="yyyy-MM-dd" :value="quote.fields.date" required>
                         </div>
 
                     </div>
@@ -55,7 +55,7 @@ Create Quotation
 
                         <label class="col-md-1 offset-md-3 col-form-label text-right" for="executive">Executive:</label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" name="executive" id="executive" :value="configData[0].fields.executive" required>
+                            <input type="text" class="form-control" name="executive" id="executive" :value="quote.fields.executive" required>
                         </div>
 
 
@@ -70,26 +70,26 @@ Create Quotation
 
                         <label class="col-md-1 offset-md-1 col-form-label text-right" for="phone">Phone:</label>
                         <div class="col-md-2">
-                            <input type="text" class="form-control" name="phone" id="phone" :value="configData[0].fields.phone" required>
+                            <input type="text" class="form-control" name="phone" id="phone" :value="quote.fields.phone" required>
                         </div>
 
                     </div>
 
                     <div class="form-group row">
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="number" id="number" :value="lastQuoteNumber"required hidden>
+                            <input type="text" class="form-control" name="number" id="number" :value="quote.fields.number"required hidden>
                         </div>
                     </div>
                     <div class="form-group row">
 
                         <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="offer" id="offer" :value="configData[0].fields.offer_alias + lastQuoteNumber" required>
+                            <input type="text" class="form-control" name="offer" id="offer" :value="quote.fields.offer" required>
                         </div>
 
                         <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" name="email" id="email" :value="configData[0].fields.email" required>
+                            <input type="text" class="form-control" name="email" id="email" :value="quote.fields.email" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -123,7 +123,7 @@ Create Quotation
                         <label class="col-md-1 offset-md-1 col-form-label text-right " for="expDate">Exp
                             Date:</label>
                         <div class="col-md-2">
-                            <input type="date" class="form-control" name="expDate" id="expDate" required>
+                            <input type="date" class="form-control" name="expDate" id="expDate" data-date-format="yyyy-MM-dd" :value="quote.fields.exp_date" required>
                         </div>
 
                     </div>
@@ -396,19 +396,19 @@ Create Quotation
 <script src={% static 'js/vue/vue.js' %}></script>
 
 <script>
-
+    var quote = {{ quote| safe}};
+    var quoteDetails = {{ quoteDetails| safe}};
+    var quoteGroups = {{ groups| safe}};
     var clients = {{ clients| safe}};
     var products = {{ products| safe}};
     var quotesAgreements = {{ quotesAgreements| safe}};
     var paymentConditions = {{ paymentConditions| safe}};
     var shippingTerms = {{ shippingTerms| safe}};
     var currencies = {{ currencies| safe}};
-    var lastQuoteNumber = {{ lastQuoteNumber| safe}};
-    var configData = {{ configData| safe}};
-
+    
 
 </script>
 
-<script src={% static 'js/ibaquotes/quotes/create.js' %}></script>
+<script src={% static 'js/ibaquotes/quotes/edit.js' %}></script>
 
 {% endblock custom_scripts %}

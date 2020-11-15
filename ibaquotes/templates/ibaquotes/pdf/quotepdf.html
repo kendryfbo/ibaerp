@@ -7,12 +7,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pdf</title>
+    
+    <!-- Custom fonts for this template-->
+    <link href={% static 'vendor/fontawesome-free/css/all.min.css' %} rel="stylesheet" type="text/css">
+    <link href={% static 'vendor/datatables/dataTables.bootstrap4.min.css' %} rel="stylesheet" type="text/css">
+    
+    <!-- Custom styles for this template-->
+    <link href={% static 'css/iba-baseline.css' %} rel="stylesheet">
 
     <style type="text/css">
         body {
-            font-family: "Roboto Condensed","Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            font-weight: 200;
-            font-size: 14px;
+            font-family: "Georgia","mono","Times New Roman","Courier New","Arial";
+            font-size: 12px;
         }
     
         .header {
@@ -48,6 +54,37 @@
             background-color: #fff;
             /* Modern Browsers */
         }
+
+        .table-resum table {
+
+        }
+        .table-resum thead {
+
+            border: 1px solid black;
+        }
+        .table-resum th{
+            padding: 2px;
+            background-color: rgb(255,255,154);
+
+        }
+        .table-resum td{
+            padding: 2px;
+
+        }
+       
+        .text-left {
+            text-align: left;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .align-top {
+            vertical-align: top !important;
+        }
+
+        .align-middle {
+            vertical-align: middle !important;
+        }
     </style>
 </head>
 <body>
@@ -66,45 +103,100 @@
                 <hr class='hrItem' />
             </div>
         </div>
+
         <div class="card-body">
-        
-            <table class="table table-sm table-hover">
+            {% for group in groups %}
+                <table class="table table-sm table-resum">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="align-middle text-left" style="width:15%"scope="col">Group: {{group.group_num}}</th>
+                            <th class="align-middle text-left" style="width:35%" scope="col">{{group.group_name}}</th>
+                            <th class="align-middle text-left" style="width:20%"scope="col">Res. de Grupo:</th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                EUR
+                                <br>
+                                Quantity
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                <br>
+                                Price
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                99.9999
+                                <br>
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in quoteDetails %}
+                        {% if detail.group_num == group.group_num %}
+                            <tr>
+                                <td class="align-middle" style="color:red; font-weight: bold;">#{{detail.product.pdid}}</td>
+                                <td class="align-middle text-left" style="font-weight: bold;">{{detail.product.name}}</td>
+                                <td class="align-middle text-left">Pos-weight:{{detail.product.wight}}</td>
+                                <td class="align-middle text-center">{{detail.quantity}}</td>
+                                <td class="align-middle text-center">{{detail.price}}</td>
+                                <td class="align-middle text-center">{{detail.total}}</td>
+                              
+                            </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+            {% endfor %}
+        </div>
+        <pdf:nextpage></pdf:nextpage>
+
+        <div class="card-body">
+            {% for group in groups %}
+            <table class="table table-sm table-resum">
                 <thead class="thead-light">
                     <tr>
-                        <th class="align-middle text-center" scope="col">#</th>
-                        <th class="align-middle text-center" scope="col">image</th>
-                        <th class="align-middle text-center" scope="col">Code</th>
-                        <th class="align-middle text-center" scope="col">Product</th>
-                        <th class="align-middle text-center" scope="col">Description</th>
-                        <th class="align-middle text-center" scope="col">Weight</th>
-                        <th class="align-middle text-center" scope="col">Quantity</th>
-                        <th class="align-middle text-center" scope="col">Price</th>
-                        <th class="align-middle text-center" scope="col">Total</th>
+                        <th class="align-middle text-left" style="width:20%" scope="col">Group: {{group.group_num}}</th>
+                        <th class="align-middle text-left" style="width:50%" scope="col">Res. de Grupo:</th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            EUR
+                            <br>
+                            Quantity
+                        </th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            <br>
+                            Price
+                        </th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            99.9999
+                            <br>
+                            Total
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for detail in quoteDetails %}
-                    <tr v-for="prod in group.products">
-                        <td class="align-middle">{{detail.item_num}}</td>
-                        <td class="align-middle text-center">
-                            <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100"
-                                class="rounded mx-auto d-block">
+                    {% if detail.group_num == group.group_num %}
+                    <tr>
+                        <td class="align-middle" style="color:red; font-weight: bold;">
+                            #{{detail.product.pdid}}
+                            <br>
+                            {{detail.product.name}}
+                            <br>
+                            <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
                         </td>
-                        <td class="align-middle text-center">{{detail.product.pdid}}</td>
-                        <td class="align-middle text-center">{{detail.product.name}}</td>
                         <td class="align-middle text-left">
-                            <h6>{{detail.product_detail|safe}}</h6>
+                            {{detail.product_detail|safe}}
                         </td>
-                        <td class="align-middle text-center">{{detail.product.weight}}</td>
-                        <td class="align-middle text-center">{{detail.quantity}}</td>
-                        <td class="align-middle text-center">
-                            {{detail.price}}</td>
-                        <td class="align-middle text-center">
-                            {{detail.subtotal}}</td>
+                        <td class="align-top text-center">{{detail.quantity}}</td>
+                        <td class="align-top text-center">{{detail.price}}</td>
+                        <td class="align-top text-center">{{detail.total}}</td>
+        
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
+            <br>
+            {% endfor %}
         </div>
 </body>
 </html>

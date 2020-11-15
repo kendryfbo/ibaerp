@@ -27,15 +27,12 @@ def quote_list(request):
 def quote_create(request):
 
     clients = serializers.serialize('json',Client.objects.all())
-    products = Product.objects.all()
-    products.prefetch_related('status')
-    products = serializers.serialize('json',products)
+    products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
     quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
     paymentConditions = serializers.serialize('json',PaymentCondition.objects.all())
     shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
     currencies = serializers.serialize('json',Currency.objects.all())
-    config = ConfigData.objects.first() # added [] to turn it into a list
-    configData = serializers.serialize('json',[config]) # added [] to turn it into a list
+    configData = serializers.serialize('json',[ConfigData.objects.first()]) # added [] to turn it into a list
     lastQuoteNumber = Quote.objects.values_list('number', flat=True).latest('created_at')
     if not (lastQuoteNumber):
         lastQuoteNumber = config.offer_number
@@ -135,26 +132,91 @@ def quote_store(request):
 def quote_show(request,id):
 
     quote = Quote.objects.prefetch_related('quotedetail_set').get(pk=id)
-    numberOfGroups = QuoteDetail.objects.filter(quote_id=id).aggregate(Max('group_num')).values()
     groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
     quoteDetails = QuoteDetail.objects.filter(quote_id=id)
     
     context = {
         'quote': quote,
         'quoteDetails': quoteDetails,
-        'groups': groups,
-        'numberOfGroups': numberOfGroups
+        'groups': groups
     }  
     #return HttpResponse(serializers.serialize('json',quoteDetails));
     return render(request,'ibaquotes/quote/show.html',context)
 
-def quote_pdf(request):
+def quote_edit(request,id):
 
+    quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
+    clients = serializers.serialize('json',Client.objects.all())
+    products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
+    quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
+    paymentConditions = serializers.serialize('json',PaymentCondition.objects.all())
+    shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
+    currencies = serializers.serialize('json',Currency.objects.all())
+    
+    context = {
+        'quoteId': id,
+        'quote': quote,
+        'quoteDetails': quoteDetails,
+        'groups': groups,
+        'clients': clients,
+        'products': products,
+        'quotesAgreements': quotesAgreements,
+        'paymentConditions': paymentConditions,
+        'shippingTerms': shippingTerms,
+        'currencies': currencies
+    }  
+    #return HttpResponse(serializers.serialize('json',quoteDetails));
+    return render(request,'ibaquotes/quote/edit.html',context)
+
+def quote_update(request,id):
+    
+    return HttpResponse('GOOD')
+
+def quote_copy(request,id):
+
+    quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
+    clients = serializers.serialize('json',Client.objects.all())
+    products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
+    quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
+    paymentConditions = serializers.serialize('json',PaymentCondition.objects.all())
+    shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
+    currencies = serializers.serialize('json',Currency.objects.all())
+    
+    context = {
+        'quoteId': id,
+        'quote': quote,
+        'quoteDetails': quoteDetails,
+        'groups': groups,
+        'clients': clients,
+        'products': products,
+        'quotesAgreements': quotesAgreements,
+        'paymentConditions': paymentConditions,
+        'shippingTerms': shippingTerms,
+        'currencies': currencies
+    }  
+    #return HttpResponse(serializers.serialize('json',quoteDetails));
+    return render(request,'ibaquotes/quote/copy.html',context)
+
+def quote_delete(request,id):
+
+    return HttpResponse('Delete quote')
+
+def quote_pdf(request,id):
+
+    quote = Quote.objects.prefetch_related('quotedetail_set').get(pk=id)
     quoteDetails = QuoteDetail.objects.filter(quote_id=17)
+    groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
+    quoteDetails = QuoteDetail.objects.filter(quote_id=id)
     template_path = 'ibaquotes/pdf/quotepdf.html'
     context = {
         'myvar': 'this is your template context',
-        'quoteDetails': quoteDetails
+        'quote': quote,
+        'quoteDetails': quoteDetails,
+        'groups': groups,
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -170,7 +232,6 @@ def quote_pdf(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-
 
 def link_callback(uri, rel):
         """

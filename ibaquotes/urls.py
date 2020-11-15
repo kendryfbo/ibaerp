@@ -21,8 +21,12 @@ urlpatterns = [
     path('list/', views.quote_list, name='quote-list'),
     path('create/', views.quote_create, name='quote-create'),
     path('store/', views.quote_store, name='quote-store'),
+    path('edit/<int:id>', views.quote_edit, name='quote-edit'),
+    path('update/<int:id>', views.quote_update, name='quote-update'),
+    path('copy/<int:id>', views.quote_copy, name='quote-copy'),
     path('show/<int:id>', views.quote_show, name='quote-show'),
-    path('pdf/', views.quote_pdf, name='quote-pdf'),
+    path('delete/<int:id>', views.quote_delete, name='quote-delete'),
+    path('pdf/<int:id>', views.quote_pdf, name='quote-pdf'),
 
     # PDF
    

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Create Quotation
+Show Quotation
 {% endblock title %}
 
 {% block content %}
@@ -27,7 +27,7 @@ Create Quotation
                     {% csrf_token %}
 
                     <div class="form-group row">
-                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' %}>
+                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' quote.pk %}>
                             <i class="far fa-file-pdf"></i> Export
                         </a>
                     </div>
@@ -88,15 +88,14 @@ Create Quotation
 
                         <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="offer" id="offer" value="{{quote.offer}}"
-                                readonly>
+                            <input type="text" class="form-control" name="offer" id="offer" value="{{quote.offer}}" readonly>
                         </div>
 
-                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="fax">Fax:</label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control" name="fax" id="fax" value="{{quote.fax}}" readonly>
+                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="email" id="email" value="{{quote.email}}" readonly>
                         </div>
-
+                        
                     </div>
                     <div class="form-group row">
 
@@ -104,12 +103,6 @@ Create Quotation
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="request" id="request"
                                 value="{{quote.request}}" readonly>
-                        </div>
-
-                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" name="email" id="email" value="{{quote.email}}"
-                                readonly>
                         </div>
 
                     </div>
@@ -120,7 +113,7 @@ Create Quotation
                             Condition:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="paymentCondition" id="paymentCondition"
-                                value="{{quote.payment_condition.name}}" readonly>
+                                value="{{quote.payment_condition}}" readonly>
                         </div>
 
                         <label class="col-md-1 col-form-label text-right " for="expDate">Exp
@@ -143,7 +136,7 @@ Create Quotation
                         <label class="col-md-2 offset-md-1 col-form-label text-right" for="shippingTerm">Shipping Terms:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="shippingTerm" id="shippingTerm"
-                                value="{{quote.shipping_term.name}}" readonly>
+                                value="{{quote.shipping_term}}" readonly>
                         </div>
 
                     </div>
@@ -160,18 +153,18 @@ Create Quotation
                     <hr />
                     <!-- Products Headers -->
                     <div class="form-group col-sm-12">
-
+                        {% for group in groups %}
                         <div v-for="group in groups">
                             <div class="card">
 
                                 <div class="card-header  d-flex flex-row align-items-center">
 
                                     <div class="col-sm-2 text-primary">
-                                        <h6 class="text-primary">Group: # </h6>
+                                        <h6 class="text-primary">Group # {{group.group_num}}</h6>
                                     </div>
 
                                     <div class="col-sm-7">
-                                        <label class="text-primary"> GroupName </label>
+                                        <label class="text-primary"> {{group.group_name}} </label>
                                     </div>
 
                                 </div>
@@ -184,6 +177,7 @@ Create Quotation
                                                 <th class="align-middle text-center" scope="col">image</th>
                                                 <th class="align-middle text-center" scope="col">Code</th>
                                                 <th class="align-middle text-center" scope="col">Product</th>
+                                                <th class="align-middle text-center" scope="col">Description</th>
                                                 <th class="align-middle text-center" scope="col">Weight</th>
                                                 <th class="align-middle text-center" scope="col">Quantity</th>
                                                 <th class="align-middle text-center" scope="col">Price</th>
@@ -192,27 +186,30 @@ Create Quotation
                                         </thead>
                                         <tbody>
                                             {% for detail in quoteDetails %}
+                                            {% if detail.group_num == group.group_num %}
                                             <tr v-for="prod in group.products">
                                                 <td class="align-middle">{{detail.item_num}}</td>
                                                 <td class="align-middle text-center">
-                                                    <img src="{{detail.product.imageurl}}" alt="..."
-                                                        class="rounded mx-auto d-block">
+                                                    <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
                                                 </td>
-                                                <td class="align-middle text-center">{{detail.product.code}}</td>
+                                                <td class="align-middle text-center">{{detail.product.pdid}}</td>
+                                                <td class="align-middle text-center">{{detail.product.name}}</td>
+                                                <td class="align-middle text-left"><h6>{{detail.product_detail|safe}}</h6></td>
                                                 <td class="align-middle text-center">{{detail.product.weight}}</td>
                                                 <td class="align-middle text-center">{{detail.quantity}}</td>
-                                                <td class="align-middle text-center">{{detail.price}}</td>
                                                 <td class="align-middle text-center">
                                                     {{detail.price}}</td>
                                                 <td class="align-middle text-center">
-                                                    {{detail.price}}</td>
+                                                    {{detail.subtotal}}</td>
                                             </tr>
+                                            {% endif %}
                                             {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group row">
@@ -226,15 +223,15 @@ Create Quotation
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Total Groups:</th>
-                                    <th class="text-right input-td"></th>
+                                    <th class="text-right input-td">{{quote.subtotal}}</th>
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Total Weight Kg</th>
-                                    <th class="text-right input-td"></th>
+                                    <th class="text-right input-td">{{quote.weight}}</th>
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Taxes:</th>
-                                    <th class="text-right input-td"></th>
+                                    <th class="text-right input-td">{{quote.taxes}}</th>
                                 </tr>
                                 <tr>
                                     <th colspan="2" class=""></th>
@@ -242,7 +239,7 @@ Create Quotation
 
                                 <tr>
                                     <th class="bg-light text-right">TOTAL:</th>
-                                    <th class="bg-light text-right"></th>
+                                    <th class="bg-light text-right">{{quote.total}}</th>
                                 </tr>
 
                             </table>

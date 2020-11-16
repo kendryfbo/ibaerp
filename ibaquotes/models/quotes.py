@@ -2,6 +2,7 @@ from django.db import models
 from .client import Client
 from .product import Product
 
+
 class Currency(models.Model):
 
     class Meta: 
@@ -16,7 +17,14 @@ class Currency(models.Model):
         return self.name
 
 
+class QuoteStatus(models.Model):
 
+    class Meta: 
+        verbose_name = 'QuoteStatus'
+        verbose_name_plural = "QuoteStatus"
+
+    name = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
 
 class ShippingTerm(models.Model):
 
@@ -26,6 +34,7 @@ class ShippingTerm(models.Model):
     def __str__(self):
         return self.name
 
+
 class PaymentCondition(models.Model):
 
     name = models.CharField(max_length=100)
@@ -34,6 +43,7 @@ class PaymentCondition(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class QuotesAgreement(models.Model):
 
@@ -46,6 +56,7 @@ class QuotesAgreement(models.Model):
 
     def __str__(self):
         return str(self.name)
+
 
 class Quote(models.Model):
 
@@ -62,25 +73,28 @@ class Quote(models.Model):
     shipping_term = models.ForeignKey(ShippingTerm,on_delete=models.RESTRICT)
     currency = models.ForeignKey(Currency,on_delete=models.RESTRICT)
     description = models.TextField()
-    date = models.DateTimeField()
+    date = models.DateField()
     weight = models.DecimalField(max_digits=19,decimal_places=2)
     subtotal = models.DecimalField(max_digits=19,decimal_places=2)
     taxes = models.DecimalField(max_digits=19,decimal_places=2)
     total = models.DecimalField(max_digits=19,decimal_places=2)
     weight = models.DecimalField(max_digits=19,decimal_places=2)
-    exp_date = models.DateTimeField()
+    exp_date = models.DateField()
     copy = models.IntegerField(default=0)
+    status = models.ForeignKey(QuoteStatus,on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.request)
 
+
 class QuoteDetail(models.Model):
     
     quote = models.ForeignKey(Quote,on_delete=models.CASCADE)
     group_num = models.IntegerField()
     group_name = models.CharField(max_length=50)
+    group_tax = models.DecimalField(max_digits=19,decimal_places=2,)
     item_num = models.IntegerField()
     product = models.ForeignKey(Product,on_delete=models.RESTRICT)
     product_name = models.CharField(max_length=150)
@@ -88,3 +102,9 @@ class QuoteDetail(models.Model):
     product_remarks = models.TextField(max_length=150,null=True)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=19,decimal_places=2)
+    tax = models.DecimalField(max_digits=19,decimal_places=2,)
+    subtotal = models.DecimalField(max_digits=19,decimal_places=2,)
+    total = models.DecimalField(max_digits=19,decimal_places=2,)
+
+    def __str__(self):
+        return str(self.group_name + " " + self.product_name)

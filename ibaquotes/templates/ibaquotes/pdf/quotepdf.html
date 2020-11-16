@@ -2,69 +2,318 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pdf</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>pdf</title>
+        
+        <!-- Custom fonts for this template-->
+        <link href={% static 'vendor/fontawesome-free/css/all.min.css' %} rel="stylesheet" type="text/css">
+        <link href={% static 'vendor/datatables/dataTables.bootstrap4.min.css' %} rel="stylesheet" type="text/css">
+        
+        <!-- Custom styles for this template-->
+        <link href={% static 'css/iba-baseline.css' %} rel="stylesheet">
 
-    <style type="text/css">
-        body {
-            font-family: "Roboto Condensed","Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            font-weight: 200;
-            font-size: 14px;
-        }
-    
-        .header {
-            font-size: 20px;
-            font-weight: 100;
-            text-align: center;
-            color: #505050;
-        }
-    
-        .title {
-            font-size: 30px;
-            font-weight: 100;
-            /* text-align: right;*/
-            padding: 10px 20px 0px 20px;
-        }
-    
-        .title span {
-            color: #007cae;
-        }
-    
-        .details {
-            padding: 10px 20px 0px 20px;
-            text-align: left !important;
-            /*margin-left: 40%;*/
-        }
-    
-        .hrItem {
-            border: none;
-            height: 1px;
-            /* Set the hr color */
-            color: #333;
-            /* old IE */
-            background-color: #fff;
-            /* Modern Browsers */
-        }
-    </style>
-</head>
-<body>
-    <div class='wrapper'>
-        <div class='header'>
-            <p class='title'>See The Big Picture</p>
+        <style type="text/css">
+            body {
+                font-family: "Georgia","mono","Times New Roman","Courier New","Arial";
+                font-size: 14px;
+            }
+        
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #505050;
+            }
+        
+            .title {
+                font-size: 30px;
+                font-weight: 100;
+                /* text-align: right;*/
+                padding: 10px 20px 0px 20px;
+            }
+        
+            .title span {
+                color: #007cae;
+            }
+        
+            .details {
+                padding: 50px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+        
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333;
+                /* old IE */
+                background-color: #fff;
+                /* Modern Browsers */
+            }
+
+            .table-resum thead {
+
+                border: 1px solid black;
+            }
+            .table-resum th{
+                padding: 2px;
+                background-color: rgb(255,255,154);
+
+            }
+            .table-resum td{
+                padding: 2px;
+
+            }
+        
+            .text-left {
+                text-align: left;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .align-top {
+                vertical-align: top !important;
+            }
+
+            .align-middle {
+                vertical-align: middle !important;
+            }
+            pre {
+                font-family: inherit;
+                margin: 1em 0px;
+                font-weight: bold;
+                color:red;
+            }
+           
+            @page {
+                size: letter portrait;
+                @frame header_frame {           /* Static Frame */
+                    -pdf-frame-content: header_content;
+                    left: 50pt; 
+                    width: 512pt; 
+                    top: 20pt; 
+                    height: 30pt;
+                };
+                @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 60pt;
+                    height: 682pt;
+                };
+                @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; 
+                    width: 512pt; 
+                    top: 722pt; 
+                    height: 50pt;
+                };
+                
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Content for Static Frame 'header_frame' -->
+        <div id="header_content">
+            page <pdf:pagenumber>
+            of <pdf:pagecount>
+            <hr>  
+        </div>
+        <!-- Content for Static Frame 'footer_frame' -->
+        <div id="footer_content">
+            <hr>
+            <p class="text-center" style="color: gray;"> 
+            {{configData.company_name}} - {{configData.address}}
+            <br>
+            Phone: {{configData.phone}} - {{configData.email}} - {{configData.domain}}
+            </p>
+        </div>
+        <div id="content_frame">
+            <div class='header'>
+                <p class='title'>See The Big Picture</p>
+                <div>
+                    <img src="{% static 'logo/2018_iba_Brands_RGB_300dpi_GLOBAL.png' %}" alt="IMAGE">
+                </div>
+            </div>
+            <p><b>{{configData.company_name}} - {{configData.address}}</b></p>
             <div>
-                <img src="{% static 'logo/2018_iba_Brands_RGB_300dpi_GLOBAL.png' %}" alt="IMAGE">
+                <div>
+                    <h3>
+                        {{quote.client.company}}
+                        <br>
+                        {{quote.client.cfname}} {{quote.client.clname}}
+                        <br>
+                        BUSINESS AREA
+                        <br>
+                        PROJECT NAME
+                    </h3>
+                </div>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="width:20%">Offer: </td>
+                        <td style="width:40%"><b>{{quote.offer}}</b></td>
+                        <td style="width:10%">Date:</td>
+                        <td style="width:20%"><b>{{quote.date}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Request:</td>
+                        <td><b>{{quote.request}}</b></td>
+                        <td>Executive:</td>
+                        <td><b>{{quote.executive}}</b></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Phone:</td>
+                        <td><b>{{quote.phone}}</b></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Email:</td>
+                        <td><b>{{quote.email}}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <p>
+                    Estimated Mr. {{quote.client.cfname}} {{quote.client.clname}}
+                </p>
+                <p>
+                    Para proceder con el pedido, por favor enviar un email con el número de oferta al correo electrónico:
+                    iba@iba-chile.com
+                    <br>
+                    No dude en contactarnos si tiene alguna pregunta.
+                    <br>
+                    Agradeceríamos si confirman la recepción de la oferta.
+                </p>
+            <pre>
+    {{quote.description}}
+            </pre>
             </div>
         </div>
-        <div>
-            <div class='details'>
-                Bill to: <br />
-                Amount: <br />
-                Date: {{myvar}}
-                <hr class='hrItem' />
-            </div>
+        <div id="content_frame" class="details">
+        <p>
+        Observaciones importantes:
+        <br>
+        - iba CHILE, S.p.A. es la única representante en Chile, autorizada a comercializar y suministrar productos
+        y soluciones desarrolladas por la empresa iba, con soporte técnico y garantía regional local.
+        <br>
+        - En la oferta están incluida 2 horas de asistencia técnica para ayudar en su instalación e implementación,
+        siendo esta asistencia a través de acceso remoto o telefónico en horario comercial de lunes a viernes de
+        08h00 a 17h00
+        <br>
+        - iba CHILE, S.p.A. es la única empresa autorizada y certificada para dar entrenamiento de los productos y
+        soluciones de iba en la región.
+        <br>
+        - Todos los productos comprados directamente de iba CHILE, S.p.A. Incluyen soporte técnico y garantía
+        local.
+        <br>
+        - Los productos comprados a través de terceros no tendrán garantía local y los soportes técnicos tendrán
+        un costo adicional dependiendo del problema.
+        <br>
+        iba 
+        </p>
         </div>
-</body>
+        <pdf:nextpage>
+        <!-- products Resum -->
+        <div id="content_frame" class="card-body">
+            {% for group in groups %}
+                <table class="table table-sm table-resum">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="align-middle text-left" style="width:15%"scope="col">Group: {{group.group_num}}</th>
+                            <th class="align-middle text-left" style="width:35%" scope="col">{{group.group_name}}</th>
+                            <th class="align-middle text-left" style="width:20%"scope="col">Res. de Grupo:</th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                EUR
+                                <br>
+                                Quantity
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                <br>
+                                Price
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                99.9999
+                                <br>
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in quoteDetails %}
+                        {% if detail.group_num == group.group_num %}
+                            <tr>
+                                <td class="align-middle" style="color:red; font-weight: bold;">#{{detail.product.pdid}}</td>
+                                <td class="align-middle text-left" style="font-weight: bold;">{{detail.product.name}}</td>
+                                <td class="align-middle text-left">Pos-weight:{{detail.product.wight}}</td>
+                                <td class="align-middle text-center">{{detail.quantity}}</td>
+                                <td class="align-middle text-center">{{detail.price}}</td>
+                                <td class="align-middle text-center">{{detail.total}}</td>
+                                
+                            </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+            {% endfor %}
+        </div>
+        <!-- Full description products-->
+        <div id="content_frame" class="card-body">
+            {% for group in groups %}
+            <pdf:nextpage>
+            <table class="table table-sm table-resum">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="align-middle text-left" style="width:30%" scope="col">Group: {{group.group_num}}</th>
+                        <th class="align-middle text-left" style="width:50%" scope="col">Res. de Grupo:</th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            EUR
+                            <br>
+                            Quantity
+                        </th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            <br>
+                            Price
+                        </th>
+                        <th class="align-middle text-center" style="width:10%" scope="col">
+                            99.9999
+                            <br>
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detail in quoteDetails %}
+                    {% if detail.group_num == group.group_num %}
+                    <tr>
+                        <td class="align-middle" style="color:red; font-weight: bold; display: inline-block; word-wrap:break-all;">
+                            #{{detail.product.pdid}}
+                            <br>
+                            {{detail.product.name}}
+                            <br>
+                            <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
+                        </td>
+                        <td class="align-middle text-left">
+                            {{detail.product_detail|safe}}
+                        </td>
+                        <td class="align-top text-center">{{detail.quantity}}</td>
+                        <td class="align-top text-center">{{detail.price}}</td>
+                        <td class="align-top text-center">{{detail.total}}</td>
+        
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </body>
 </html>

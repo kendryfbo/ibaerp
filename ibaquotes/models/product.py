@@ -36,7 +36,7 @@ class Product(models.Model):
     lkz =  models.CharField(max_length=2)
     ag = models.CharField(max_length=1)
     imageurl = models.CharField(max_length=100,blank=True,default='')
-    imagepath = models.CharField(max_length=100,blank=True,default='')
+    imagepath = models.ImageField(upload_to='products')
 
     def __str__(self):
         return self.name

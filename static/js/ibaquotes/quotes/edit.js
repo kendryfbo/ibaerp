@@ -15,12 +15,13 @@ var app = new Vue({
         currencyCode: 'USD',
         currencySymbol: '$',
         currency: [],
+        quote: quote[0],
+        quoteDetails: quoteDetails,
+        quoteGroups: quoteGroups,
         quotesAgreements: quotesAgreements,
         paymentConditions: paymentConditions,
         shippingTerms: shippingTerms,
         currencies: currencies,
-        lastQuoteNumber: lastQuoteNumber,
-        configData: configData,
         prodId: '',
         prodDetail: '',
         prodPrice: '',
@@ -175,6 +176,97 @@ var app = new Vue({
             this.taxes = taxes;
             this.total = total;
         },
+
+        /*
+        |   Edit loads
+        */
+        loadQuote() {
+
+            this.loadClient();
+            this.loadGroups();
+            this.loadProducts();
+            this.loadPaymentCondition();
+            this.loadShippingTerms();
+            this.loadCurrency();
+            this.agreementDescrip = this.quote.fields.description;
+        },
+        loadGroups() {
+
+            for (var i=0; this.quoteGroups.length > i; i++) {
+
+                var newGroup = {
+                    id: this.quoteGroups[i].fields.group_num,
+                    name: this.quoteGroups[i].fields.group_name,
+                    taxPercentage: this.quoteGroups[i].fields.group_tax,
+                    products: []
+                };
+
+                this.groups.push(newGroup);
+            }
+        },
+        
+        loadProducts() {
+
+            for (var i = 0; this.quoteDetails.length > i; i++) {
+
+                for (var j = 0; this.groups.length > j; j++) {
+                    
+                    if (this.groups[j].id == this.quoteDetails[i].fields.group_num ) {
+                        
+                        let prodPositon = this.getProductPosition(this.quoteDetails[i].fields.product)
+                        let product = Object.assign({}, this.products[prodPositon]);
+                        product['id'] =  this.quoteDetails[i].fields.item_num,
+                        product['detail'] = this.quoteDetails[i].fields.product_detail,
+                        product['weight'] = Number(this.quoteDetails[i].fields.quantity * product.fields.weight);
+                        product['quantity'] =  Number(this.quoteDetails[i].fields.quantity),
+                        product['price'] =  Number(this.quoteDetails[i].fields.price),
+                        product['total'] =  Number(this.quoteDetails[i].fields.subtotal),
+                        product['tax'] =  Number(this.quoteDetails[i].fields.tax),
+                     
+                        this.groups[j].products.push(product);
+                    }
+                }
+            }
+        },
+
+        loadClient() {
+            this.clientId = this.quote.fields.client;
+            this.updateClient()
+
+        },
+        loadPaymentCondition(){
+
+            for (var i = 0; this.paymentConditions.length > i; i++) {
+                
+                if (this.paymentConditions[i].pk == this.quote.fields.payment_condition) {
+
+                    this.paymentConditionId = this.paymentConditions[i].pk;                
+                    return;
+                }
+            }
+        },
+        loadShippingTerms() {
+            
+            for (var i = 0; this.shippingTerms.length > i; i++) {
+
+                if (this.shippingTerms[i].pk == this.quote.fields.shipping_term) {
+
+                    this.shippingTermId = this.paymentConditions[i].pk;
+                    return;
+                }
+            }
+        },
+        loadCurrency() {
+            
+            for (var i = 0; this.currencies.length > i; i++) {
+
+                if (this.currencies[i].pk == this.quote.fields.currency) {
+
+                    this.currencyId = this.currencies[i].pk;
+                    return;
+                }
+            }
+        },
         /* 
         |   usefull methods
         */
@@ -284,5 +376,8 @@ var app = new Vue({
     updated() {
         $('.selectpicker').selectpicker('refresh');
         this.updateTotals();
+    },
+    mounted() {
+        this.loadQuote()
     }
 })

@@ -147,5 +147,12 @@ settings.
 """
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+"""
+MEDIA ROOT AND URLS
+"""
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
 # Excel import-export library settings
 IMPORT_EXPORT_USE_TRANSACTIONS = True

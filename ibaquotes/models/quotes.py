@@ -17,6 +17,15 @@ class Currency(models.Model):
         return self.name
 
 
+class QuoteStatus(models.Model):
+
+    class Meta: 
+        verbose_name = 'QuoteStatus'
+        verbose_name_plural = "QuoteStatus"
+
+    name = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
+
 class ShippingTerm(models.Model):
 
     name = models.CharField(max_length=100)
@@ -72,6 +81,7 @@ class Quote(models.Model):
     weight = models.DecimalField(max_digits=19,decimal_places=2)
     exp_date = models.DateField()
     copy = models.IntegerField(default=0)
+    status = models.ForeignKey(QuoteStatus,on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

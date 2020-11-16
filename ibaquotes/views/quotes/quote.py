@@ -33,11 +33,15 @@ def quote_create(request):
     shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
     currencies = serializers.serialize('json',Currency.objects.all())
     configData = serializers.serialize('json',[ConfigData.objects.first()]) # added [] to turn it into a list
-    lastQuoteNumber = Quote.objects.values_list('number', flat=True).latest('created_at')
-    if not (lastQuoteNumber):
-        lastQuoteNumber = config.offer_number
-    lastQuoteNumber += 1
+    offerNumber = ConfigData.objects.values_list('offer_number', flat=True).first();
     
+    if (Quote.objects.exists()):
+        
+        lastQuoteNumber = Quote.objects.values_list('number', flat=True).latest('created_at') + 1
+
+    else: 
+        lastQuoteNumber = offerNumber + 1
+
     context = {
         'clients': clients,
         'products': products,
@@ -74,7 +78,8 @@ def quote_store(request):
             exp_date = request.POST.get('expDate'),
             payment_condition_id = request.POST.get('paymentCondition'),
             shipping_term_id = request.POST.get('shippingTerm'),
-            currency_id = request.POST.get('currency'))
+            currency_id = request.POST.get('currency'),
+            status_id = 1,)
 
         quote.save()
 
@@ -207,17 +212,21 @@ def quote_delete(request,id):
 
 def quote_pdf(request,id):
 
-    quote = Quote.objects.prefetch_related('quotedetail_set').get(pk=id)
+    quote = Quote.objects.prefetch_related('quotedetail_set').select_related ('client').get(pk=id)
     quoteDetails = QuoteDetail.objects.filter(quote_id=17)
     groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
     quoteDetails = QuoteDetail.objects.filter(quote_id=id)
+    configData = ConfigData.objects.first()
     template_path = 'ibaquotes/pdf/quotepdf.html'
+
     context = {
         'myvar': 'this is your template context',
         'quote': quote,
         'quoteDetails': quoteDetails,
         'groups': groups,
-        }
+        'configData': configData,
+    }
+    
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="report.pdf"'

@@ -4,7 +4,7 @@ from import_export.admin import ImportExportModelAdmin
 from .resources import ProductResource
 from ibaquotes.models import Product, ProductStatus, ShippingTerm, PaymentCondition 
 from ibaquotes.models import QuotesAgreement, Client, ClientStatus, Currency
-from ibaquotes.models import Quote, QuoteDetail, ConfigData
+from ibaquotes.models import Quote, QuoteDetail, ConfigData, QuoteStatus
 
 
 admin.site.site_header = 'IBAERP Admin Dashboard'
@@ -35,3 +35,4 @@ admin.site.register(Currency)
 admin.site.register(Quote)
 admin.site.register(QuoteDetail)
 admin.site.register(ConfigData)
+admin.site.register(QuoteStatus)

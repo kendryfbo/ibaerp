@@ -22,7 +22,7 @@ Create Product
 
             <div class="card-body">
 
-                <form action={% url 'product-store' %} enctype="multipart/form-data" method="POST">
+                <form action={% url 'product-update' product.pk %} enctype="multipart/form-data" method="POST">
 
                     {% csrf_token %}
 
@@ -30,11 +30,11 @@ Create Product
                         
                         <label class="col-md-2 col-form-label text-right" for="pdid"><span class="text-danger">*</span>Pdid:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" id="pdid" name="pdid" required>
+                            <input type="text" class="form-control" id="pdid" name="pdid" value="{{product.pdid}}" required>
                         </div>
                         <label class="col-md-2 col-form-label text-right" for="name"><span class="text-danger">*</span>Name:</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{product.name}}" required>
                         </div>
 
                     </div>
@@ -43,7 +43,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="descr1"><span class="text-danger">*</span>Descr 1:</label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="descr1" name="descr1" rows="8" required></textarea>
+                            <textarea class="form-control" id="descr1" name="descr1" rows="8" required>{{product.descr1}}</textarea>
                         </div>
 
                     </div>
@@ -52,7 +52,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="descr2">Descr 2:</label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="descr2" name="descr2" rows="8"></textarea>
+                            <textarea class="form-control" id="descr2" name="descr2" rows="8">{{product.descr2}}</textarea>
                         </div>
 
                     </div>
@@ -60,7 +60,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="detail">Detail:</label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="detail" name="detail" rows="8"></textarea>
+                            <textarea class="form-control" id="detail" name="detail" rows="8">{{product.detail}}</textarea>
                         </div>
 
                     </div>
@@ -69,7 +69,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="remarks">Remarks:</label>
                         <div class="col-sm-8">
-                            <textarea class="form-control" id="remarks" name="remarks" rows="8"></textarea>
+                            <textarea class="form-control" id="remarks" name="remarks" rows="8">{{product.remarks}}</textarea>
                         </div>
 
                     </div>
@@ -80,7 +80,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="harmonizedcode">Harmonized Code:</label>
                         <div class="col-sm-2">
-                            <input type="number" class="form-control" id="harmonizedcode" name="harmonizedcode">
+                            <input type="number" class="form-control" id="harmonizedcode" name="harmonizedcode" value="{{product.harmonizedcode}}">
                         </div>
 
                     </div>
@@ -89,17 +89,17 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="price"><span class="text-danger">*</span>Price:</label>
                         <div class="col-sm-2">
-                            <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{product.price}}" required>
                         </div>
 
                         <label class="col-md-2 col-form-label text-right" for="weight"><span class="text-danger">*</span>Weight:</label>
                         <div class="col-sm-1">
-                            <input type="number" class="form-control" id="weight" name="weight" required>
+                            <input type="number" class="form-control" id="weight" name="weight" value="{{product.weight}}" required>
                         </div>
 
-                        <label class="col-md-2 col-form-label text-right" for="date"><span class="text-danger">*</span>Date:</label>
+                        <label class="col-md-2 col-form-label text-right" for="date">Date:</label>
                         <div class="col-sm-2">
-                            <input type="date" class="form-control" id="date" name="date" required>
+                            <input type="date" class="form-control" id="date" name="date" value="{{product.date}}" required>
                         </div>
 
 
@@ -109,17 +109,17 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="ptype"><span class="text-danger">*</span>Ptype:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" id="ptype" name="ptype" required>
+                            <input type="text" class="form-control" id="ptype" name="ptype" value="{{product.ptype}}" required>
                         </div>
 
                         <label class="col-md-2 col-form-label text-right" for="handlager">Handlager:</label>
                         <div class="col-sm-1">
-                            <input type="number" class="form-control" id="handlager" name="handlager">
+                            <input type="text" class="form-control" id="handlager" name="handlager" value="{{product.handlager}}">
                         </div>
 
                         <label class="col-md-2 col-form-label text-right" for="lang_id">Lang id:</label>
                         <div class="col-sm-1">
-                            <input type="number" class="form-control" id="lang_id" name="lang_id">
+                            <input type="text" class="form-control" id="lang_id" name="lang_id" value="{{product.lang_id}}">
                         </div>
 
                     </div>
@@ -128,16 +128,16 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="eccn">Eccn:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" maxlength="10" id="eccn" name="eccn">
+                            <input type="text" class="form-control" id="eccn" name="eccn" value="{{product.eccn}}">
                         </div>
                         <label class="col-md-2 col-form-label text-right" for="lkz">lkz:</label>
                         <div class="col-sm-1">
-                            <input type="text" class="form-control" maxlength="2" id="lkz" name="lkz">
+                            <input type="number" class="form-control" id="lkz" name="lkz" value="{{product.lkz}}">
                         </div>
 
-                        <label class="col-md-2 col-form-label text-right"  for="ag">Ag:</label>
+                        <label class="col-md-2 col-form-label text-right" for="ag">Ag:</label>
                         <div class="col-sm-1">
-                            <input type="text" class="form-control" maxlength="1" id="ag" name="ag">
+                            <input type="text" class="form-control" id="ag" name="ag" value="{{product.ag}}">
                         </div>
                     </div>
 
@@ -165,9 +165,15 @@ Create Product
                             <select class="form-control selectpicker" data-width="false" data-live-search="true"
                                 id="status" name="status" required>
                                 {% for status in productStatus %}
-                                <option value="{{status.pk}}" >
-                                    {{status.name}}
-                                </option>
+                                    {% if status == product.status %}
+                                        <option value="{{status.pk}}" selected>
+                                            {{status.name}}
+                                        </option>
+                                    {% else  %}
+                                        <option value="{{status.pk}}">
+                                            {{status.name}}
+                                        </option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </div>

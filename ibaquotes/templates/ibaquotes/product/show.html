@@ -1,0 +1,186 @@
+{% extends 'ibaquotes/base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+Create Product
+{% endblock title %}
+
+{% block content %}
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <div class="card">
+
+            <div class="card-header  d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 text-primary">Create Product</h6>
+            </div>
+
+            {% comment %}
+            <nav class="card-title" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'product-list' %}">Product List</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Show Product</li>
+                </ol>
+            </nav>
+            {% endcomment %}
+            <div class="card-body">
+                <form>
+                    <div class="form-group row">
+
+                        <div class="col-md-2 offset-2">
+                            {% if product.imagepath %}
+                            <img src="/media/{{product.imagepath}}" alt="" class=" img-thumbnail rounded mx-auto d-block">
+                            {% elif product.imageurl %}
+                            <img src="{{product.imageurl}}" alt="" class=" img-thumbnail rounded mx-auto d-block">
+                            {% endif  %}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                      
+                        <label class="col-md-2 col-form-label text-right" for="pdid">Pdid:</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="pdid" name="pdid" value="{{product.pdid}}" readonly>
+                        </div>
+                        <label class="col-md-2 col-form-label text-right" for="name">Name:</label>
+                        <div class="col-sm-4">
+                            <input type="email" class="form-control" id="name" name="name" value="{{product.name}}" readonly>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="descr1">Descr 1:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="descr1" name="descr1" rows="8"readonly>{{product.descr1}}</textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="descr2">Descr 2:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="descr2" name="descr2" rows="8" readonly>{{product.descr2}}</textarea>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="detail">Detail:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="detail" name="detail" rows="8" readonly>{{product.detail}}</textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="remarks">Remarks:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="remarks" name="remarks" rows="8" readonly>{{product.remarks}}</textarea>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="harmonizedcode">Harmonized Code:</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="harmonizedcode" name="harmonizedcode" value="{{product.harmonizedcode}}"
+                                readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="price">Price:</label>
+                        <div class="col-sm-2">
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{product.price}}" readonly>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="weight">Weight:</label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" id="weight" name="weight" value="{{product.weight}}" readonly>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="date">Date:</label>
+                        <div class="col-sm-2">
+                            <input type="date" class="form-control" id="date" name="date" value="{{product.date}}" readonly>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="ptype">Ptype:</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="ptype" name="ptype" value="{{product.ptype}}" readonly>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="handlager">Handlager:</label>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="handlager" name="handlager" value="{{product.handlager}}" readonly>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="lang_id">Lang id:</label>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="lang_id" name="lang_id" value="{{product.lang_id}}" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="eccn">Eccn:</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="eccn" name="eccn" value="{{product.eccn}}" readonly>
+                        </div>
+                        <label class="col-md-2 col-form-label text-right" for="lkz">lkz:</label>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="lkz" name="lkz" value="{{product.lkz}}" readonly>
+                        </div>
+
+                        <label class="col-md-2 col-form-label text-right" for="ag">Ag:</label>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="ag" name="ag" value="{{product.ag}}" readonly>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-2 col-form-label text-right" for="status">Status:</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="status" name="status" value="{{product.status.name}}" readonly>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<!-- Content Row -->
+
+{% endblock content %}

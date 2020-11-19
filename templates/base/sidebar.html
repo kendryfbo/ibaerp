@@ -50,11 +50,15 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="collapseTwo" data-parent="#accordionSidebar">
             <div class="bg-secondary py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options:</h6>
+                <a class="collapse-item text-white" href={% url 'product-create' %}>
+                    <i class="far fa-plus-square text-success"></i> Create Product                </a>
                 <a class="collapse-item text-white" href={% url 'product-list' %}>
                     <i class="fas fa-list text-info"></i> Product List
                 </a>
+                {% comment %}
                 <a class="collapse-item text-white" href={% url 'product-import-file' %} >
                     <i class="fas fa-file-upload text-success"></i> Import File</a>
+                {% endcomment %}
             </div>
         </div>
     </li>
@@ -69,10 +73,10 @@
         <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
             <div class="bg-secondary py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options:</h6>
-                <a class="collapse-item text-white" href="">
+                <a class="collapse-item text-white" href={% url 'client-create' %}>
                     <i class="far fa-plus-square text-success"></i> New Client</a>
-                <a class="collapse-item text-white" href="">
-                    <i class="fas fa-list text-info"></i> Client List</a>
+                <a class="collapse-item text-white" href={% url 'client-list' %} >
+                    <i class="fas fa-list text-info"></i>Client List</a>
             </div>
         </div>
     </li>

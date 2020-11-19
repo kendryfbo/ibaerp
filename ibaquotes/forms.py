@@ -1,5 +1,6 @@
 from django import forms
 from ibaquotes.models.product import Product
+from ibaquotes.models.client import Client
 
 class CreateProductForm(forms.ModelForm):
 
@@ -19,3 +20,26 @@ class CreateProductForm(forms.ModelForm):
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'harmonizedcode': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+class CreateClientForm(forms.ModelForm):
+
+    class Meta:
+        model= Client
+        fields= ['username','cfname','clname','usergroup','cemail','company','newsletter','address','zipcode','city','country','domain','phone']
+    
+        widgets = {
+            'username': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'cfname': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'clname': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'usergroup': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'cemail': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'company': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'newsletter': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'address': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'zipcode': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'city': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'country': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'domain': forms.TextInput(attrs={'cclass': 'form-control'}),
+            'phone': forms.TextInput(attrs={'cclass': 'form-control'}),
+        }
+    

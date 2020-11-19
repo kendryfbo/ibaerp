@@ -51,7 +51,7 @@ class QuotesAgreement(models.Model):
     shipping_terms = models.ForeignKey(ShippingTerm,on_delete=models.SET_NULL,null=True)
     payment_condition = models.ForeignKey(PaymentCondition,on_delete=models.SET_NULL,null=True)
     exp_days = models.IntegerField()
-    description = models.TextField(max_length=1000)
+    description = models.TextField(max_length=1500)
     active = models.BooleanField(default=True)
 
     def __str__(self):

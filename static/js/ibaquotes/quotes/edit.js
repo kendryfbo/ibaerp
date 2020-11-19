@@ -323,6 +323,7 @@ var app = new Vue({
 
             var prodPositon = this.getProductPosition(prodId);
             this.prodDetail = this.products[prodPositon].fields.detail;
+            this.prodPrice = this.products[prodPositon].fields.price;
         },
         // Clear Group Input Fields
         clearGroupInputs() {

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'ibaquotes',
     'import_export',
 ]
@@ -151,11 +152,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA ROOT AND URLS
 """
 
-# Base url to serve media files
-MEDIA_URL = '/media/'
 
 # Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Base url to serve media files
+MEDIA_URL = '/media/'
 
 # Excel import-export library settings
 IMPORT_EXPORT_USE_TRANSACTIONS = True

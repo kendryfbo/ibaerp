@@ -26,6 +26,9 @@
                         <th>Client</th>
                         <th>Payment condition</th>
                         <th>Shipping terms</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -41,26 +44,20 @@
                         <td>{{quote.client.company}}</td>
                         <td>{{quote.payment_condition.name}}</td>
                         <td>{{quote.shipping_term.name}}</td>
+                        <td>{{quote.created_at|date:'d/m/Y - H:i'}}</td>
+                        <td>{{quote.updated_at|date:'d/m/Y - H:i'}}</td>
+                        <td>{{quote.status.name}}</td>
                         <td class="">
-                            <a class="btn btn-sm btn-info btn-icon-split" href="{% url 'quote-copy' quote.pk %}">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                <span class="text">Copy</span>
-                            </a>
-                            <a class="btn btn-sm btn-warning btn-icon-split" href="{% url 'quote-edit' quote.pk %}">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                            </a>
                             <form action="{% url 'quote-delete' quote.pk %}" method="POST">
                                 {% csrf_token %}
-                                <button class="btn btn-sm btn-danger btn-icon-split" onclick="return confirm('Are you sure you want to delete this?')">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                    <span class="text">Delete</span>
+                                <a class="btn btn-sm btn-warning" href="{% url 'quote-edit' quote.pk %}" data-toggle="tooltip" data-placement="top" title="Edit Quote">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="btn btn-sm btn-info" href="{% url 'quote-copy' quote.pk %}" data-toggle="tooltip" data-placement="top" title="Copy Quote">
+                                    <i class="far fa-copy"></i> 
+                                </a>
+                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Quote" onclick="return confirm('Are you sure you want to delete this?')">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
                         </td>

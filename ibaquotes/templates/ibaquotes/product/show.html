@@ -34,7 +34,7 @@ Create Product
 
                         <div class="col-md-2 offset-2">
                             {% if product.imagepath %}
-                            <img src="/media/{{product.imagepath}}" alt="" class=" img-thumbnail rounded mx-auto d-block">
+                            <img src="{{product.imagepath.url}}" alt="" class=" img-thumbnail rounded mx-auto d-block">
                             {% elif product.imageurl %}
                             <img src="{{product.imageurl}}" alt="" class=" img-thumbnail rounded mx-auto d-block">
                             {% endif  %}

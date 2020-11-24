@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path,include
 from ibaquotes import views
-
 urlpatterns = [
 
     path('', views.index, name='index'),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('edit/<int:id>', views.quote_edit, name='quote-edit'),
     path('update/<int:id>', views.quote_update, name='quote-update'),
     path('copy/<int:id>', views.quote_copy, name='quote-copy'),
+    path('copy_save/<int:id>', views.quote_copy_save, name='quote-copy-save'),
     path('show/<int:id>', views.quote_show, name='quote-show'),
     path('delete/<int:id>', views.quote_delete, name='quote-delete'),
     path('pdf/<int:id>', views.quote_pdf, name='quote-pdf'),

@@ -27,10 +27,29 @@ Show Quotation
                     {% csrf_token %}
 
                     <div class="form-group row">
-                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' quote.pk %}>
+                        <a class="btn btn-primary col-md-1 offset-md-11" href={% url 'quote-pdf' quote.pk %} target="_blank">
                             <i class="far fa-file-pdf"></i> Export
                         </a>
                     </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-1 col-form-label text-right" for="client">Created Date:</label>
+
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="client" id="date"
+                                value="{{quote.created_at|date:'d/m/Y - H:i'}}" readonly>
+
+                        </div>
+
+                        <label class="col-md-1 col-form-label text-right " for="date">Updated Date:</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="date" id="date" value="{{quote.updated_at|date:'d/m/Y - H:i'}}"
+                                readonly>
+                        </div>
+
+                    </div>
+                    <hr>
                     <div class="form-group row">
 
                         <label class="col-md-1 col-form-label text-right" for="client">Client:</label>
@@ -47,11 +66,8 @@ Show Quotation
                                 readonly>
                         </div>
 
-                        <div>
-
-                        </div>
-
                     </div>
+
                     <div class="form-group row">
 
                         <label class="col-md-1 col-form-label text-right" for="contact">Contact:</label>
@@ -167,10 +183,14 @@ Show Quotation
                                         <label class="text-primary"> {{group.group_name}} </label>
                                     </div>
 
+                                    <div class="form-inline col-sm-2 text-right">
+                                        <label class="col-form-label col-form-label-lg">Group Tax: </label>
+                                        <label class="text-primary font-weight-bold col-form-label col-form-label-lg">{{group.group_tax}}%</label>
+                                    </div>
                                 </div>
                                 <div class="card-body">
 
-                                    <table class="table table-sm table-hover">
+                                    <table class="table table-sm">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="align-middle text-center" scope="col">#</th>
@@ -190,7 +210,11 @@ Show Quotation
                                             <tr v-for="prod in group.products">
                                                 <td class="align-middle">{{detail.item_num}}</td>
                                                 <td class="align-middle text-center">
+                                                    {% if detail.product.imagepath %}
+                                                    <img src="{{detail.product.imagepath.url}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
+                                                    {% elif detail.product.imageurl %}
                                                     <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
+                                                    {% endif  %}
                                                 </td>
                                                 <td class="align-middle text-center">{{detail.product.pdid}}</td>
                                                 <td class="align-middle text-center">{{detail.product.name}}</td>
@@ -198,9 +222,9 @@ Show Quotation
                                                 <td class="align-middle text-center">{{detail.product.weight}}</td>
                                                 <td class="align-middle text-center">{{detail.quantity}}</td>
                                                 <td class="align-middle text-center">
-                                                    {{detail.price}}</td>
+                                                    {{quote.currency.symbol}}{{detail.price}}</td>
                                                 <td class="align-middle text-center">
-                                                    {{detail.subtotal}}</td>
+                                                    {{quote.currency.symbol}}{{detail.subtotal}}</td>
                                             </tr>
                                             {% endif %}
                                             {% endfor %}
@@ -223,7 +247,7 @@ Show Quotation
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Total Groups:</th>
-                                    <th class="text-right input-td">{{quote.subtotal}}</th>
+                                    <th class="text-right input-td">{{quote.currency.symbol}}{{quote.subtotal}}</th>
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Total Weight Kg</th>
@@ -231,7 +255,7 @@ Show Quotation
                                 </tr>
                                 <tr>
                                     <th class="bg-light text-right">Taxes:</th>
-                                    <th class="text-right input-td">{{quote.taxes}}</th>
+                                    <th class="text-right input-td">{{quote.currency.symbol}}{{quote.taxes}}</th>
                                 </tr>
                                 <tr>
                                     <th colspan="2" class=""></th>
@@ -239,7 +263,7 @@ Show Quotation
 
                                 <tr>
                                     <th class="bg-light text-right">TOTAL:</th>
-                                    <th class="bg-light text-right">{{quote.total}}</th>
+                                    <th class="bg-light text-right">{{quote.currency.symbol}}{{quote.total}}</th>
                                 </tr>
 
                             </table>

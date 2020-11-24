@@ -23,8 +23,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/quotes')),
     path('admin/', admin.site.urls),
     path('quotes/', include('ibaquotes.urls')),
-]  
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

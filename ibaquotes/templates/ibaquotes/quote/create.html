@@ -168,7 +168,7 @@ Create Quotation
 
                         <label class="col-md-2 col-form-label text-right" for="agreementDescrip">Description:</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" id="agreementDescrip" rows="8" name="description"
+                            <textarea class="form-control" id="agreementDescrip" rows="8" cols="18" wrap="hard" maxlength="1000" name="description"
                                 v-model="agreementDescrip" required></textarea>
                         </div>
 
@@ -283,7 +283,8 @@ Create Quotation
                                     
                                             <label for="productQuantity">Quantity: </label>
                                             <input type="number" class="form-control col-sm-1 mr-sm-2" v-model="prodQuantity">
-                                    
+                                            <label for="productQuantity">Ref. Price: </label>
+                                            <input type="number" class="form-control col-sm-1 mr-sm-2" v-model="prodRefPrice" readonly>
                                             <label for="productQuantity">Price: </label>
                                             <div class="col-sm-2 mr-sm-2">
                                                 <div class="input-group">
@@ -350,7 +351,6 @@ Create Quotation
                                         </table>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,18 +8,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>pdf</title>
         
-        <!-- Custom fonts for this template-->
-        <link href={% static 'vendor/fontawesome-free/css/all.min.css' %} rel="stylesheet" type="text/css">
-        <link href={% static 'vendor/datatables/dataTables.bootstrap4.min.css' %} rel="stylesheet" type="text/css">
-        
         <!-- Custom styles for this template-->
         <link href={% static 'css/iba-baseline.css' %} rel="stylesheet">
 
         <style type="text/css">
+
             body {
-                font-family: "Georgia","mono","Times New Roman","Courier New","Arial";
-                font-size: 14px;
+                font-family: Avenir; 
+                font-size: 12px;
             }
+            
+            @font-face {
+                font-family: "Calibri";
+                src: url({% static "fonts/Calibri_Light.ttf" %});
+            }
+            @font-face {
+                font-family: Calibri;
+                src: url({% static "fonts/Calibri_Light.ttf" %});
+            }
+            
         
             .header {
                 font-size: 20px;
@@ -85,11 +92,30 @@
             pre {
                 font-family: inherit;
                 margin: 1em 0px;
-                font-weight: bold;
                 color:red;
             }
-           
+            .bb{
+                border-bottom: 0.5px solid black !important;
+                padding: 1px;
+                margin: 2px;
+            }
             @page {
+                size: letter portrait;
+                @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 0pt;
+                    height: 682pt;
+                };
+                @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; 
+                    width: 512pt; 
+                    top: 722pt; 
+                    height: 50pt;
+                };
+            }
+            @page innerpage {
                 size: letter portrait;
                 @frame header_frame {           /* Static Frame */
                     -pdf-frame-content: header_content;
@@ -117,7 +143,7 @@
     </head>
     <body>
         <!-- Content for Static Frame 'header_frame' -->
-        <div id="header_content">
+        <div id="header_content" style="color: gray;">
             page <pdf:pagenumber>
             of <pdf:pagecount>
             <hr>  
@@ -133,15 +159,12 @@
         </div>
         <div id="content_frame">
             <div class='header'>
-                <p class='title'>See The Big Picture</p>
-                <div>
-                    <img src="/media/images/photo_1.JPG/2018_iba_Brands_RGB_300dpi_GLOBAL.png" alt="IMAGE">
-                </div>
+                <p class="title align-middle">See The Big Picture <img width="150px" src="http://localhost:8000/media/iba_GLOBAL.png"></p>
             </div>
             <p><b>{{configData.company_name}} - {{configData.address}}</b></p>
             <div>
                 <div>
-                    <h3>
+                    <h4>
                         {{quote.client.company}}
                         <br>
                         {{quote.client.cfname}} {{quote.client.clname}}
@@ -149,7 +172,7 @@
                         BUSINESS AREA
                         <br>
                         PROJECT NAME
-                    </h3>
+                    </h4>
                 </div>
             </div>
             <table>
@@ -193,10 +216,11 @@
                     Agradeceríamos si confirman la recepción de la oferta.
                 </p>
             <pre>
-    {{quote.description}}
+{{quote.description}}
             </pre>
             </div>
         </div>
+        <pdf:nexttemplate name="innerpage" />
         <pdf:nextpage>
         <div id="content_frame" class="details">
         <p>
@@ -232,7 +256,7 @@
                             <th class="align-middle text-left" style="width:35%" scope="col">{{group.group_name}}</th>
                             <th class="align-middle text-left" style="width:20%"scope="col">Res. de Grupo:</th>
                             <th class="align-middle text-center" style="width:10%" scope="col">
-                                EUR
+                                {{quote.currency.code}}
                                 <br>
                                 Quantity
                             </th>
@@ -241,7 +265,7 @@
                                 Price
                             </th>
                             <th class="align-middle text-center" style="width:10%" scope="col">
-                                99.9999
+                                {{group.group_subtotal|intcomma}}
                                 <br>
                                 Total
                             </th>
@@ -251,69 +275,102 @@
                         {% for detail in quoteDetails %}
                         {% if detail.group_num == group.group_num %}
                             <tr>
-                                <td class="align-middle" style="color:red; font-weight: bold;">#{{detail.product.pdid}}</td>
+                                <td class="align-middle" style="color:red; font-weight: bold;">{{detail.product.pdid}}</td>
                                 <td class="align-middle text-left" style="font-weight: bold;">{{detail.product.name}}</td>
-                                <td class="align-middle text-left">Pos-weight:{{detail.product.wight}}</td>
+                                <td class="align-middle text-left">Pos-weight:{{detail.}}</td>
                                 <td class="align-middle text-center">{{detail.quantity}}</td>
-                                <td class="align-middle text-center">{{detail.price}}</td>
-                                <td class="align-middle text-center">{{detail.total}}</td>
+                                <td class="align-middle text-center">{{detail.price|intcomma}}</td>
+                                <td class="align-middle text-center">{{detail.total|intcomma}}</td>
                                 
                             </tr>
                         {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
-                <br>
             {% endfor %}
+                <br>
+                <table class="table table-sm table-resum">
+                    <tbody>
+                       <tr>
+                            <td width="80%">RESUM:</td>
+                            <td width="10%"></td>
+                            <td width="10%"></td>
+                       </tr>
+                       <tr>
+                            <td width="80%">Groups Total:</td>
+                            <td width="10%"><bold>{{quote.currency.code}}</bold></td>
+                            <td width="10%">{{quote.subtotal|intcomma}}</td>
+                       </tr>
+                       <tr>
+                            <td width="80%">Total Weight (Estimate):</td>
+                            <td width="10%"></td>
+                            <td width="10%">{{quote.weight}} kg</td>
+                       </tr>
+                       <tr>
+                            <td width="60%">Taxes:</td>
+                            <td width="10%"></td>
+                            <td width="10%">{{quote.taxes|intcomma}}</td>
+                       </tr>
+                       <tr style="background-color=rgb(204,255,204);">
+                            <td width="80%" style="padding-top: 5px;">TOTAL:</td>
+                            <td width="10%" style="padding-top: 5px;"></td>
+                            <td width="10%" style="padding-top: 5px;">{{quote.total|intcomma}}</td>
+                       </tr>
+                    </tbody>
+                </table>
         </div>
         <!-- Full description products-->
         <div id="content_frame" class="card-body">
-            {% for group in groups %}
             <pdf:nextpage>
-            <table class="table table-sm table-resum">
-                <thead class="thead-light">
-                    <tr>
-                        <th class="align-middle text-left" style="width:30%" scope="col">Group: {{group.group_num}}</th>
-                        <th class="align-middle text-left" style="width:50%" scope="col">Res. de Grupo:</th>
-                        <th class="align-middle text-center" style="width:10%" scope="col">
-                            EUR
-                            <br>
-                            Quantity
-                        </th>
-                        <th class="align-middle text-center" style="width:10%" scope="col">
-                            <br>
-                            Price
-                        </th>
-                        <th class="align-middle text-center" style="width:10%" scope="col">
-                            99.9999
-                            <br>
-                            Total
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for detail in quoteDetails %}
-                    {% if detail.group_num == group.group_num %}
-                    <tr>
-                        <td class="align-middle" style="color:red; font-weight: bold; display: inline-block; word-wrap:break-all;">
-                            #{{detail.product.pdid}}
-                            <br>
-                            {{detail.product.name}}
-                            <br>
-                            <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
-                        </td>
-                        <td class="align-middle text-left">
-                            {{detail.product_detail|safe}}
-                        </td>
-                        <td class="align-top text-center">{{detail.quantity}}</td>
-                        <td class="align-top text-center">{{detail.price}}</td>
-                        <td class="align-top text-center">{{detail.total}}</td>
-        
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% for group in groups %}
+                <table class="table table-sm table-resum">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="align-middle text-left" style="width:30%" scope="col">Group: {{group.group_num}}</th>
+                            <th class="align-middle text-left" style="width:50%" scope="col">Res. de Grupo:</th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                EUR
+                                <br>
+                                Quantity
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                <br>
+                                Price
+                            </th>
+                            <th class="align-middle text-center" style="width:10%" scope="col">
+                                {{group.group_subtotal|intcomma}}
+                                <br>
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in quoteDetails %}
+                        {% if detail.group_num == group.group_num %}
+                        <tr class="bb">
+                            <td class="align-middle" style="color:red; font-weight: bold; display: inline-block; word-wrap:break-all;">
+                                #{{detail.product.pdid}}
+                                <br>
+                                {{detail.product.name}}
+                                <br>
+                                {% if detail.product.imagepath %}
+                                <img src="http://localhost:8000{{detail.product.imagepath.url}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
+                                {% elif detail.product.imageurl %}
+                                <img src="{{detail.product.imageurl}}" alt="..." width="100" height="100" class="rounded mx-auto d-block">
+                                {% endif  %}
+                            </td>
+                            <td class="align-middle text-left">
+                                {{detail.product_detail|safe}}
+                            </td>
+                            <td class="align-top text-center">{{detail.quantity}}</td>
+                            <td class="align-top text-center">{{detail.price|intcomma}}</td>
+                            <td class="align-top text-center">{{detail.total|intcomma}}</td>
+            
+                        </tr >
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endfor %}
         </div>
     </body>

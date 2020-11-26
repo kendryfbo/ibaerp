@@ -23,7 +23,11 @@ def client_store(request):
 
     if request.method == 'POST':
 
+        # Django is not getting the proper next id so get it manually. "This because the clients where uploaded from database"
+        id = Client.objects.latest('id').id + 1
+
         client = Client(
+            id = id,
             username = request.POST.get('username'),
             cfname = request.POST.get('cfname'),
             clname = request.POST.get('clname'),

@@ -13,6 +13,7 @@ class ClientStatus(models.Model):
         verbose_name_plural = 'Client Status'
 
 class Client(models.Model):
+    
     username = models.CharField(max_length=150,)
     cfname = models.CharField(max_length=150,)
     clname = models.CharField(max_length=150,)

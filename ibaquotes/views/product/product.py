@@ -27,10 +27,11 @@ def product_store(request):
     if request.method == 'POST':
 
         try:   
-
-            imagePath = request.FILES['imagepath']
-            fs = FileSystemStorage()
-            filename = fs.save(imagePath.name, imagePath)
+            
+            imagePath = request.FILES.get('imagepath', False)
+            if imagePath != False:
+                fs = FileSystemStorage()
+                filename = fs.save(imagePath.name, imagePath)
 
             product = Product(
             pdid = request.POST.get('pdid'), 
@@ -43,7 +44,7 @@ def product_store(request):
             price= request.POST.get('price'), 
             date = request.POST.get('date'), 
             handlager = request.POST.get('handlager') if request.POST.get('handlager') else None,
-            lang_id = request.POST.get('lang_id'), 
+            lang_id = request.POST.get('lang_id') if request.POST.get('lang_id') else None, 
             weight = request.POST.get('weight'),
             ptype = request.POST.get('ptype'), 
             harmonizedcode =  request.POST.get('harmonizedcode') if request.POST.get('harmonizedcode') else None,

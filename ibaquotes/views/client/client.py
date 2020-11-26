@@ -31,7 +31,7 @@ def client_store(request):
             username = request.POST.get('username'),
             cfname = request.POST.get('cfname'),
             clname = request.POST.get('clname'),
-            usergroup = request.POST.get('usergroup'),
+            usergroup = request.POST.get('usergroup') if request.POST.get('usergroup') else None,
             cemail = request.POST.get('cemail'),
             company = request.POST.get('company'),
             newsletter = request.POST.get('newsletter'),

@@ -1,7 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.db import IntegrityError
 from django.core.files.storage import FileSystemStorage
-from ibaquotes.forms import CreateProductForm
+from django.shortcuts import render, HttpResponse, redirect
 from ibaquotes.models.product import Product, ProductStatus
+from ibaquotes.forms import CreateProductForm
 
 def product_list(request):
 
@@ -25,32 +26,37 @@ def product_store(request):
 
     if request.method == 'POST':
 
-        imagePath = request.FILES['imagepath']
-        fs = FileSystemStorage()
-        filename = fs.save(imagePath.name, imagePath)
-        product = Product(
-        pdid = request.POST.get('pdid'), 
-        name = request.POST.get('name'),
-        descr1 = request.POST.get('descr1'), 
-        descr2 = request.POST.get('descr2'),  
-        detail = request.POST.get('detail'), 
-        remarks = request.POST.get('remarks'), 
-        status_id = request.POST.get('status'), 
-        price= request.POST.get('price'), 
-        date = request.POST.get('date'), 
-        handlager = request.POST.get('handlager'),
-        lang_id = request.POST.get('lang_id'), 
-        weight = request.POST.get('weight'),
-        ptype = request.POST.get('ptype'), 
-        harmonizedcode = request.POST.get('harmonizedcode'),
-        eccn = request.POST.get('eccn'),  
-        lkz = request.POST.get('lkz'),   
-        ag = request.POST.get('ag'),  
-        imageurl = imagePath, 
-        imagepath = request.POST.get('imagepath'), 
-        )
+        try:   
 
-        product.save()
+            imagePath = request.FILES['imagepath']
+            fs = FileSystemStorage()
+            filename = fs.save(imagePath.name, imagePath)
+
+            product = Product(
+            pdid = request.POST.get('pdid'), 
+            name = request.POST.get('name'),
+            descr1 = request.POST.get('descr1'), 
+            descr2 = request.POST.get('descr2'),  
+            detail = request.POST.get('detail'), 
+            remarks = request.POST.get('remarks'), 
+            status_id = request.POST.get('status'), 
+            price= request.POST.get('price'), 
+            date = request.POST.get('date'), 
+            handlager = request.POST.get('handlager') if request.POST.get('handlager') else None,
+            lang_id = request.POST.get('lang_id'), 
+            weight = request.POST.get('weight'),
+            ptype = request.POST.get('ptype'), 
+            harmonizedcode =  request.POST.get('harmonizedcode') if request.POST.get('harmonizedcode') else None,
+            eccn = request.POST.get('eccn'),  
+            lkz = request.POST.get('lkz'),   
+            ag = request.POST.get('ag'),  
+            imageurl = imagePath, 
+            imagepath = request.POST.get('imagepath'),)
+
+            product.save()
+
+        except IntegrityError as e:
+            return HttpResponse(e)
 
         return redirect('product-list')
 

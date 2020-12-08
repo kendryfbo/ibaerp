@@ -17,7 +17,6 @@ class Client(models.Model):
     username = models.CharField(max_length=150,)
     cfname = models.CharField(max_length=150,)
     clname = models.CharField(max_length=150,)
-    usergroup = models.IntegerField(null=True)
     cemail = models.CharField(max_length=150,)
     company = models.CharField(max_length=150,)
     newsletter = models.CharField(max_length=150, null=True)

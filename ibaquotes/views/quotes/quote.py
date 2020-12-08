@@ -403,7 +403,7 @@ def quote_pdf(request,id):
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response, link_callback=link_callback)
+       html, dest=response)
     # if error then show some funy view
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')

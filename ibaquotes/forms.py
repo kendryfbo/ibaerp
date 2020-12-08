@@ -25,13 +25,12 @@ class CreateClientForm(forms.ModelForm):
 
     class Meta:
         model= Client
-        fields= ['username','cfname','clname','usergroup','cemail','company','newsletter','address','zipcode','city','country','domain','phone']
+        fields= ['username','cfname','clname','cemail','company','newsletter','address','zipcode','city','country','domain','phone']
     
         widgets = {
             'username': forms.TextInput(attrs={'cclass': 'form-control'}),
             'cfname': forms.TextInput(attrs={'cclass': 'form-control'}),
             'clname': forms.TextInput(attrs={'cclass': 'form-control'}),
-            'usergroup': forms.TextInput(attrs={'cclass': 'form-control'}),
             'cemail': forms.TextInput(attrs={'cclass': 'form-control'}),
             'company': forms.TextInput(attrs={'cclass': 'form-control'}),
             'newsletter': forms.TextInput(attrs={'cclass': 'form-control'}),

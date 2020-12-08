@@ -31,7 +31,6 @@ def client_store(request):
             username = request.POST.get('username'),
             cfname = request.POST.get('cfname'),
             clname = request.POST.get('clname'),
-            usergroup = request.POST.get('usergroup') if request.POST.get('usergroup') else None,
             cemail = request.POST.get('cemail'),
             company = request.POST.get('company'),
             newsletter = request.POST.get('newsletter'),
@@ -73,7 +72,6 @@ def client_update(request,id):
         client.username = request.POST.get('username')
         client.cfname = request.POST.get('cfname')
         client.clname = request.POST.get('clname')
-        client.usergroup = request.POST.get('usergroup')
         client.cemail = request.POST.get('cemail')
         client.company = request.POST.get('company')
         client.newsletter = request.POST.get('newsletter')

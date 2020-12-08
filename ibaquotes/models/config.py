@@ -10,3 +10,7 @@ class ConfigData(models.Model):
     domain = models.CharField(max_length=100,null=True)
     offer_alias = models.CharField(max_length=150,)
     offer_number = models.IntegerField()
+    pdf_top_msg = models.TextField(max_length=1500,null=True)
+    pdf_img_msg = models.TextField(max_length=150,null=True)
+    pdf_observ_msg = models.TextField(max_length=1500,null=True)
+    company_img = models.ImageField(upload_to='company',null=True,blank=True)

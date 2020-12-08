@@ -8,9 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>pdf</title>
         
-        <!-- Custom styles for this template-->
-        <link href={% static 'css/iba-baseline.css' %} rel="stylesheet">
-
         <style type="text/css">
 
             body {
@@ -92,11 +89,14 @@
             pre {
                 font-family: inherit;
                 margin: 1em 0px;
+                
+            }
+            .description-red {
                 color:red;
             }
             .bb{
-                border-bottom: 0.5px solid black !important;
-                padding: 1px;
+                border-bottom: 0.1px solid gray !important;
+                padding: 2px;
                 margin: 2px;
             }
             @page {
@@ -122,13 +122,13 @@
                     left: 50pt; 
                     width: 512pt; 
                     top: 20pt; 
-                    height: 30pt;
+                    height: 60pt;
                 };
                 @frame content_frame {
                     left: 50pt;
                     width: 512pt;
                     top: 60pt;
-                    height: 682pt;
+                    height: 662pt;
                 };
                 @frame footer_frame {
                     -pdf-frame-content: footer_content;
@@ -144,8 +144,15 @@
     <body>
         <!-- Content for Static Frame 'header_frame' -->
         <div id="header_content" style="color: gray;">
-            page <pdf:pagenumber>
-            of <pdf:pagecount>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="width:40%">page <pdf:pagenumber> of <pdf:pagecount> </td>
+                        <td style="width:40%">{{quote.offer}}</td>
+                        <td style="width:20%">{{quote.date}}</td>
+                    </tr>
+                </tbody>
+            </table>
             <hr>  
         </div>
         <!-- Content for Static Frame 'footer_frame' -->
@@ -208,42 +215,27 @@
                     Estimated Mr. {{quote.client.cfname}} {{quote.client.clname}}
                 </p>
                 <p>
-                    Para proceder con el pedido, por favor enviar un email con el número de oferta al correo electrónico:
-                    iba@iba-chile.com
-                    <br>
-                    No dude en contactarnos si tiene alguna pregunta.
-                    <br>
-                    Agradeceríamos si confirman la recepción de la oferta.
+                    {{configData.pdf_top_msg|safe}}
                 </p>
-            <pre>
+                <pre class="description-red">
 {{quote.description}}
-            </pre>
+                </pre>
+                <div class="company-image content">
+                    <p style="display:inline-block;">
+                        <img src="http://localhost:8000/media/{{configData.company_img}}" alt="..." width="50" height="50">
+                        <span>
+                            {{configData.pdf_img_msg|safe}}
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
         <pdf:nexttemplate name="innerpage" />
         <pdf:nextpage>
         <div id="content_frame" class="details">
-        <p>
-        Observaciones importantes:
-        <br>
-        - iba CHILE, S.p.A. es la única representante en Chile, autorizada a comercializar y suministrar productos
-        y soluciones desarrolladas por la empresa iba, con soporte técnico y garantía regional local.
-        <br>
-        - En la oferta están incluida 2 horas de asistencia técnica para ayudar en su instalación e implementación,
-        siendo esta asistencia a través de acceso remoto o telefónico en horario comercial de lunes a viernes de
-        08h00 a 17h00
-        <br>
-        - iba CHILE, S.p.A. es la única empresa autorizada y certificada para dar entrenamiento de los productos y
-        soluciones de iba en la región.
-        <br>
-        - Todos los productos comprados directamente de iba CHILE, S.p.A. Incluyen soporte técnico y garantía
-        local.
-        <br>
-        - Los productos comprados a través de terceros no tendrán garantía local y los soportes técnicos tendrán
-        un costo adicional dependiendo del problema.
-        <br>
-        iba 
-        </p>
+            <p>
+                {{configData.pdf_observ_msg|safe}}
+            </p>
         </div>
         <pdf:nextpage>
         <!-- products Resum -->
@@ -329,7 +321,7 @@
                             <th class="align-middle text-left" style="width:30%" scope="col">Group: {{group.group_num}}</th>
                             <th class="align-middle text-left" style="width:50%" scope="col">Res. de Grupo:</th>
                             <th class="align-middle text-center" style="width:10%" scope="col">
-                                EUR
+                                {{quote.currency.code}}
                                 <br>
                                 Quantity
                             </th>
@@ -371,6 +363,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <br>
             {% endfor %}
         </div>
     </body>

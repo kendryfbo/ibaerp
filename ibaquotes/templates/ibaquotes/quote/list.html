@@ -24,8 +24,6 @@
                         <th>Offer</th>
                         <th>Request</th>
                         <th>Client</th>
-                        <th>Payment condition</th>
-                        <th>Shipping terms</th>
                         <th>Created</th>
                         <th>Updated</th>
                         <th>Status</th>
@@ -42,8 +40,6 @@
                         </td>
                         <td>{{quote.request}}</td>
                         <td>{{quote.client.company}}</td>
-                        <td>{{quote.payment_condition.name}}</td>
-                        <td>{{quote.shipping_term.name}}</td>
                         <td>{{quote.created_at|date:'d/m/Y - H:i'}}</td>
                         <td>{{quote.updated_at|date:'d/m/Y - H:i'}}</td>
                         <td>{{quote.status.name}}</td>

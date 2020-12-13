@@ -19,6 +19,7 @@ class Client(models.Model):
     clname = models.CharField(max_length=150,)
     cemail = models.CharField(max_length=150,)
     company = models.CharField(max_length=150,)
+    business_area = models.CharField(max_length=150,)
     newsletter = models.CharField(max_length=150, null=True)
     address = models.CharField(max_length=150, null=True)
     zipcode = models.CharField(max_length=150, null=True)

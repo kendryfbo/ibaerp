@@ -181,13 +181,13 @@
             <div>
                 <div>
                     <h4>
-                        {{quote.client.company}}
+                        {{quote.client_name}}
                         <br>
                         {{quote.client.cfname}} {{quote.client.clname}}
                         <br>
-                        BUSINESS AREA
+                        {{quote.client.business_area}}
                         <br>
-                        PROJECT NAME
+                        {{quote.project_name}}
                     </h4>
                 </div>
             </div>
@@ -278,7 +278,7 @@
                             <tr>
                                 <td class="align-middle" style="color:red; font-weight: bold;">{{detail.product.pdid}}</td>
                                 <td class="align-middle text-left" style="font-weight: bold;">{{detail.product.name}}</td>
-                                <td class="align-middle c">Pos-weight:{{detail.}}</td>
+                                <td class="align-middle c">Pos-weight:{{detail.weight}}</td>
                                 <td class="align-middle text-center">{{detail.quantity}}</td>
                                 <td class="align-middle text-center">{{detail.price|intcomma}}</td>
                                 <td class="align-middle text-center">{{detail.subtotal|intcomma}}</td>

@@ -9,7 +9,7 @@ from django.db import transaction
 from django.db.models import Count, Max, Sum
 from django.contrib.staticfiles import finders
 from django.shortcuts import render, HttpResponse, redirect
-from ibaquotes.models.quotes import QuotesAgreement,PaymentCondition,ShippingTerm, Currency, Quote, QuoteDetail
+from ibaquotes.models.quotes import QuotesAgreement,PaymentCondition,ShippingTerm, Currency, Quote, QuoteDetail, QuoteStatus
 from ibaquotes.models.client import Client
 from ibaquotes.models.product import Product
 from ibaquotes.models.config import ConfigData
@@ -61,8 +61,13 @@ def quote_store(request):
 
     if request.method == 'POST':
 
+        paymentCondition = PaymentCondition.objects.get(pk=request.POST.get('paymentCondition'))
+        shippingTerm = ShippingTerm.objects.get(pk=request.POST.get('shippingTerm'))
+        client = Client.objects.get(pk=request.POST.get('client')) 
+
         quote = Quote(
-            client_id = request.POST.get('client'),
+            client = client,
+            client_name = client.company,
             number = request.POST.get('number'),
             offer = request.POST.get('offer'),
             date = request.POST.get('date'),
@@ -70,6 +75,7 @@ def quote_store(request):
             address = request.POST.get('address'),
             phone = request.POST.get('phone'),
             request = request.POST.get('request'),
+            project_name = request.POST.get('project_name'),
             description = request.POST.get('description'),
             email = request.POST.get('email'),
             subtotal = 0,
@@ -77,8 +83,11 @@ def quote_store(request):
             total = 0,
             weight = 0,
             exp_date = request.POST.get('expDate'),
-            payment_condition_id = request.POST.get('paymentCondition'),
-            shipping_term_id = request.POST.get('shippingTerm'),
+            payment_condition = paymentCondition,
+            payment_condition_name = paymentCondition.name,
+            payment_condition_days = paymentCondition.days,
+            shipping_term = shippingTerm,
+            shipping_term_name = shippingTerm.name,
             currency_id = request.POST.get('currency'),
             status_id = 1,)
 
@@ -132,9 +141,6 @@ def quote_store(request):
 
         quote.save()
         return redirect('quote-list')
-        #return HttpResponse(json.dumps(request.POST.get('items'),indent=4))
-        #return HttpResponse(json.dumps(groups, indent=4))
-        #return HttpResponse(json.dumps(quoteInfo, indent=4))
 
 def quote_show(request,id):
 
@@ -142,14 +148,24 @@ def quote_show(request,id):
     #groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
     groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
     quoteDetails = QuoteDetail.objects.filter(quote_id=id)
-    
+    quoteStatus = QuoteStatus.objects.all()
+
     context = {
         'quote': quote,
         'quoteDetails': quoteDetails,
-        'groups': groups
+        'groups': groups,
+        'quoteStatus': quoteStatus
     }  
     #return HttpResponse(serializers.serialize('json',quoteDetails));
     return render(request,'ibaquotes/quote/show.html',context)
+
+def quote_status_update(request,id):
+
+    quote = Quote.objects.get(pk=id)
+    quote.status_id = request.POST.get('quote_status')
+    quote.save()
+
+    return redirect('quote-show', id=id)
 
 def quote_edit(request,id):
 
@@ -183,9 +199,13 @@ def quote_update(request,id):
     
     if request.method == 'POST':
 
+        paymentCondition = PaymentCondition.objects.get(pk=request.POST.get('paymentCondition'))
+        shippingTerm = ShippingTerm.objects.get(pk=request.POST.get('shippingTerm'))
+        client = Client.objects.get(pk=request.POST.get('client')) 
         quote = Quote.objects.get(pk=id)
 
-        quote.client_id = request.POST.get('client')
+        quote.client_id = client
+        quote.client_name = client.company
         quote.number = request.POST.get('number')
         quote.offer = request.POST.get('offer')
         quote.date = request.POST.get('date')
@@ -193,6 +213,7 @@ def quote_update(request,id):
         quote.address = request.POST.get('address')
         quote.phone = request.POST.get('phone')
         quote.request = request.POST.get('request')
+        quote.project_name = request.POST.get('project_name')
         quote.description = request.POST.get('description')
         quote.email = request.POST.get('email')
         quote.subtotal = 0
@@ -200,8 +221,11 @@ def quote_update(request,id):
         quote.total = 0
         quote.weight = 0
         quote.exp_date = request.POST.get('expDate')
-        quote.payment_condition_id = request.POST.get('paymentCondition')
-        quote.shipping_term_id = request.POST.get('shippingTerm')
+        quote.payment_condition = paymentCondition
+        quote.payment_condition_name = paymentCondition.name
+        quote.payment_condition_days = paymentCondition.days
+        quote.shipping_term = shippingTerm
+        quote.shipping_term_name = shippingTerm.name
         quote.currency_id = request.POST.get('currency')
         quote.status_id = 1
 
@@ -296,8 +320,13 @@ def quote_copy_save(request,id):
         quoteOrig.copy = copy
         quoteOrig.save() 
 
+        paymentCondition = PaymentCondition.objects.get(pk=request.POST.get('paymentCondition'))
+        shippingTerm = ShippingTerm.objects.get(pk=request.POST.get('shippingTerm'))
+        client = Client.objects.get(pk=request.POST.get('client')) 
+
         quote = Quote(
-            client_id = request.POST.get('client'),
+            client = client,
+            client_name = client.company,
             number = request.POST.get('number'),
             offer = request.POST.get('offer'),
             date = request.POST.get('date'),
@@ -305,6 +334,7 @@ def quote_copy_save(request,id):
             address = request.POST.get('address'),
             phone = request.POST.get('phone'),
             request = request.POST.get('request'),
+            project_name = request.POST.get('project_name'),
             description = request.POST.get('description'),
             email = request.POST.get('email'),
             subtotal = 0,
@@ -312,8 +342,11 @@ def quote_copy_save(request,id):
             total = 0,
             weight = 0,
             exp_date = request.POST.get('expDate'),
-            payment_condition_id = request.POST.get('paymentCondition'),
-            shipping_term_id = request.POST.get('shippingTerm'),
+            payment_condition = paymentCondition,
+            payment_condition_name = paymentCondition.name,
+            payment_condition_days = paymentCondition.days,
+            shipping_term = shippingTerm,
+            shipping_term_name = shippingTerm.name,
             currency_id = request.POST.get('currency'),
             status_id = 1,)
 

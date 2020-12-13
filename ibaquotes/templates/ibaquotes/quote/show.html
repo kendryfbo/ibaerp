@@ -22,8 +22,8 @@ Show Quotation
 
             <div class="card-body">
 
-                <form>
-
+                <form action={% url 'quote-status-update' quote.pk %} method="POST">
+                
                     {% csrf_token %}
 
                     <div class="form-group row">
@@ -48,6 +48,23 @@ Show Quotation
                                 readonly>
                         </div>
 
+                        <label class="col-md-1 col-form-label text-right" for="quote_status">Status:</label>
+                        
+                        <div class="col-md-1">
+                            <select class="form-control selectpicker" data-width="false" data-live-search="true" name="quote_status"
+                                id="quote_status" required>
+                                {% for status in quoteStatus %}
+                                    {% if status.id == quote.status.pk %}
+                                        <option value="{{status.id}}" selected>{{status.name}}</option>
+                                    {% else %}
+                                        <option value="{{status.id}}">{{status.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
                     </div>
                     <hr>
                     <div class="form-group row">
@@ -56,7 +73,7 @@ Show Quotation
 
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="client" id="date"
-                                value="{{quote.client.company}}" readonly>
+                                value="{{quote.client_name}}" readonly>
 
                         </div>
 
@@ -102,11 +119,11 @@ Show Quotation
 
                     <div class="form-group row">
 
-                        <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
+                        <label class="col-md-1 col-form-label text-right" for="project_name">Project Name:</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="offer" id="offer" value="{{quote.offer}}" readonly>
+                            <input type="text" class="form-control" name="project_name" id="project_name" value="{{quote.project_name}}" readonly>
                         </div>
-
+                       
                         <label class="col-md-1 offset-md-1 col-form-label text-right" for="email">email:</label>
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="email" id="email" value="{{quote.email}}" readonly>
@@ -115,7 +132,13 @@ Show Quotation
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-md-1 col-form-label text-right" for="request">request:</label>
+                        <label class="col-md-1 col-form-label text-right" for="offer">Offer:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="offer" id="offer" value="{{quote.offer}}" readonly>
+                        </div>
+
+
+                        <label class="col-md-1 offset-md-1 col-form-label text-right" for="request">request:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="request" id="request"
                                 value="{{quote.request}}" readonly>
@@ -129,7 +152,7 @@ Show Quotation
                             Condition:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="paymentCondition" id="paymentCondition"
-                                value="{{quote.payment_condition}}" readonly>
+                                value="{{quote.payment_condition_name}}" readonly>
                         </div>
 
                         <label class="col-md-1 col-form-label text-right " for="expDate">Exp
@@ -152,7 +175,7 @@ Show Quotation
                         <label class="col-md-2 offset-md-1 col-form-label text-right" for="shippingTerm">Shipping Terms:</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" name="shippingTerm" id="shippingTerm"
-                                value="{{quote.shipping_term}}" readonly>
+                                value="{{quote.shipping_term_name}}" readonly>
                         </div>
 
                     </div>

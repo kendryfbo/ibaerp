@@ -34,6 +34,7 @@ urlpatterns = [
     path('store/', views.quote_store, name='quote-store'),
     path('edit/<int:id>', views.quote_edit, name='quote-edit'),
     path('update/<int:id>', views.quote_update, name='quote-update'),
+    path('/status/update/<int:id>', views.quote_status_update, name='quote-status-update'),
     path('copy/<int:id>', views.quote_copy, name='quote-copy'),
     path('copy_save/<int:id>', views.quote_copy_save, name='quote-copy-save'),
     path('show/<int:id>', views.quote_show, name='quote-show'),

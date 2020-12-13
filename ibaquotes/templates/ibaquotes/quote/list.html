@@ -39,7 +39,7 @@
                             </a>
                         </td>
                         <td>{{quote.request}}</td>
-                        <td>{{quote.client.company}}</td>
+                        <td>{{quote.client_name}}</td>
                         <td>{{quote.created_at|date:'d/m/Y - H:i'}}</td>
                         <td>{{quote.updated_at|date:'d/m/Y - H:i'}}</td>
                         <td>{{quote.status.name}}</td>
@@ -73,15 +73,7 @@
 {% block custom_scripts %}
 <script>
     $(document).ready(function () {
-        $('#example').DataTable({
-             "columns": [
-                { "width": "20%" },
-                { "width": "20%" },
-                { "width": "20%" },
-                { "width": "20%" },
-                { "width": "20%" },
-            ]
-        });
+        $('#example').DataTable();
     });
 </script>
 {% endblock custom_scripts %}

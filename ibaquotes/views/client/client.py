@@ -33,6 +33,7 @@ def client_store(request):
             clname = request.POST.get('clname'),
             cemail = request.POST.get('cemail'),
             company = request.POST.get('company'),
+            business_area = request.POST.get('business_area'),
             newsletter = request.POST.get('newsletter'),
             address = request.POST.get('address'),
             zipcode = request.POST.get('zipcode'),
@@ -74,6 +75,7 @@ def client_update(request,id):
         client.clname = request.POST.get('clname')
         client.cemail = request.POST.get('cemail')
         client.company = request.POST.get('company')
+        client.business_area = request.POST.get('business_area')
         client.newsletter = request.POST.get('newsletter')
         client.address = request.POST.get('address')
         client.zipcode = request.POST.get('zipcode')

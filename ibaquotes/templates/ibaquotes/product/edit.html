@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Create Product
+Edit Product
 {% endblock title %}
 
 {% block content %}
@@ -99,9 +99,8 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="date">Date:</label>
                         <div class="col-sm-2">
-                            <input type="date" class="form-control" id="date" name="date" value="{{product.date}}" required>
+                            <input type="date" class="form-control" id="date" name="date" data-date-format="dd-MM-yyyy" value="{{product.date}}" required>
                         </div>
-
 
                     </div>
 
@@ -147,6 +146,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="imagepath">Upload Image:</label>
                         <div class="col-sm-4">
+                            <label class="col-form-label text-right">{{product.imagepath}}</label>
                             <input type="file" accept="image/*" class="form-control-file" id="imagepath" name="imagepath" lang="en-US">
                         </div>
 
@@ -154,7 +154,7 @@ Create Product
 
                         <label class="col-md-2 col-form-label text-right" for="imageurl">imageurl:</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="imageurl" name="imageurl">
+                            <input type="text" class="form-control" id="imageurl" name="imageurl" value="{{product.imageurl}}">
                         </div>
 
                     </div>

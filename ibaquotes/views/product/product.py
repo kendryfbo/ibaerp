@@ -51,8 +51,8 @@ def product_store(request):
             eccn = request.POST.get('eccn'),  
             lkz = request.POST.get('lkz'),   
             ag = request.POST.get('ag'),  
-            imageurl = imagePath, 
-            imagepath = request.POST.get('imagepath'),)
+            imageurl = request.POST.get('imageurl'), 
+            imagepath = imagePath,)
 
             product.save()
 
@@ -91,9 +91,11 @@ def product_update(request, id):
     if request.method == 'POST':
 
         product = Product.objects.get(pk=id);
-        imagePath = request.FILES['imagepath']
-        fs = FileSystemStorage()
-        filename = fs.save(imagePath.name, imagePath)
+        imagePath = request.FILES.get('imagepath', False)
+
+        if imagePath != False:
+            fs = FileSystemStorage()
+            filename = fs.save(imagePath.name, imagePath)
     
         product.pdid = request.POST.get('pdid')
         product.name = request.POST.get('name')
@@ -104,16 +106,16 @@ def product_update(request, id):
         product.status_id = request.POST.get('status') 
         product.price= request.POST.get('price')
         product.date = request.POST.get('date') 
-        product.handlager = request.POST.get('handlager')
-        product.lang_id = request.POST.get('lang_id') 
+        product.handlager = request.POST.get('handlager') if request.POST.get('handlager') else None
+        product.lang_id = request.POST.get('lang_id') if request.POST.get('lang_id') else None
         product.weight = request.POST.get('weight')
         product.ptype = request.POST.get('ptype') 
-        product.harmonizedcode = request.POST.get('harmonizedcode')
+        product.harmonizedcode = request.POST.get('harmonizedcode') if request.POST.get('harmonizedcode') else None
         product.eccn = request.POST.get('eccn')
         product.lkz = request.POST.get('lkz') 
         product.ag = request.POST.get('ag') 
-        product.imageurl = imagePath
-        product.imagepath = request.POST.get('imagepath')
+        product.imageurl = request.POST.get('imageurl') 
+        product.imagepath = imagePath
 
         product.save()
 

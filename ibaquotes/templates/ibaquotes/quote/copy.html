@@ -335,8 +335,12 @@ Create Quotation
                                                         </button>
                                                         [[prod.id]]
                                                     </td>
-                                                    <td class="align-middle text-center"><img width="100" height="100" v-bind:src=[[prod.fields.imageurl]]
-                                                            alt="..." class="rounded mx-auto d-block"></td>
+                                                    <td class="align-middle text-center">
+                                                        <img v-if="prod.fields.imagepath" width="100" height="100"
+                                                            :src="'http://localhost:8000/media/' + prod.fields.imagepath" alt="..." class="rounded mx-auto d-block">
+                                                        <img v-else-if="prod.fields.imageurl" width="100" height="100" v-bind:src=[[prod.fields.imageurl]] alt="..."
+                                                            class="rounded mx-auto d-block">
+                                                    </td>
                                                     <td class="align-middle text-center">[[prod.fields.pdid]]</td>
                                                     <td class="align-middle text-center">[[prod.fields.name]]</td>
                                                     <td class="align-middle text-left" v-html="prod.detail">

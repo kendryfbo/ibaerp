@@ -147,8 +147,8 @@ def quote_show(request,id):
 
     quote = Quote.objects.prefetch_related('quotedetail_set').get(pk=id)
     #groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
-    groups = QuoteDetail.objects.filter(quote_id=id).order_by(Coalesce('group_num','item_num').asc()).values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
-    quoteDetails = QuoteDetail.objects.filter(quote_id=id)
+    groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
+    quoteDetails = QuoteDetail.objects.filter(quote_id=id).order_by('item_num')
     quoteStatus = QuoteStatus.objects.all()
 
     context = {

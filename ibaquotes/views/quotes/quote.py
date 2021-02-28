@@ -171,8 +171,8 @@ def quote_status_update(request,id):
 def quote_edit(request,id):
 
     quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
-    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num','item_num').distinct('group_num'))
-    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('item_num'))
     clients = serializers.serialize('json',Client.objects.all())
     products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
     quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
@@ -286,8 +286,8 @@ def quote_update(request,id):
 def quote_copy(request,id):
 
     quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
-    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num','item_num').distinct('group_num'))
-    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('item_num'))
     clients = serializers.serialize('json',Client.objects.all())
     products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
     quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
@@ -415,7 +415,7 @@ def quote_pdf(request,id):
     quote = Quote.objects.prefetch_related('quotedetail_set').select_related ('client').get(pk=id)
     quoteDetails = QuoteDetail.objects.filter(quote_id=17)
     #groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
-    groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num','item_num').values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
+    groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
     quoteDetails = QuoteDetail.objects.filter(quote_id=id).annotate(total_weight=Sum('weight', field='weight*quantity'))
     configData = ConfigData.objects.first()
     template_path = 'ibaquotes/pdf/quotepdf.html'

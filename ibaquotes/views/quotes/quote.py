@@ -170,7 +170,7 @@ def quote_status_update(request,id):
 def quote_edit(request,id):
 
     quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
-    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num','item_num').distinct('group_num'))
     quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
     clients = serializers.serialize('json',Client.objects.all())
     products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
@@ -285,7 +285,7 @@ def quote_update(request,id):
 def quote_copy(request,id):
 
     quote = serializers.serialize('json',[Quote.objects.prefetch_related('quotedetail_set').get(pk=id)])
-    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num'))
+    groups = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id).order_by('group_num','item_num').distinct('group_num'))
     quoteDetails = serializers.serialize('json',QuoteDetail.objects.filter(quote_id=id))
     clients = serializers.serialize('json',Client.objects.all())
     products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
@@ -457,7 +457,7 @@ def link_callback(uri, rel):
     if uri.startswith(mUrl):
         path = os.path.join(mRoot, uri.replace(mUrl, ""))
     elif uri.startswith(sUrl):
-        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        path = os.path.join(sRoot, uri.repFlace(sUrl, ""))
     else:
         return uri  # handle absolute uri (ie: http://some.tld/foo.png)
 

@@ -416,7 +416,7 @@ def quote_pdf(request,id):
     quoteDetails = QuoteDetail.objects.filter(quote_id=17)
     #groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').distinct('group_num')
     groups = QuoteDetail.objects.filter(quote_id=id).order_by('group_num').values('group_num','group_name','group_tax').annotate(group_subtotal=Sum('subtotal'))
-    quoteDetails = QuoteDetail.objects.filter(quote_id=id).annotate(total_weight=Sum('weight', field='weight*quantity'))
+    quoteDetails = QuoteDetail.objects.filter(quote_id=id).order_by('item_num').annotate(total_weight=Sum('weight', field='weight*quantity'))
     configData = ConfigData.objects.first()
     template_path = 'ibaquotes/pdf/quotepdf.html'
 

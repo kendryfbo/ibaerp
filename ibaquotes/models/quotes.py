@@ -26,6 +26,9 @@ class QuoteStatus(models.Model):
     name = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 class ShippingTerm(models.Model):
 
     name = models.CharField(max_length=100)
@@ -97,13 +100,13 @@ class QuoteDetail(models.Model):
     
     quote = models.ForeignKey(Quote,on_delete=models.CASCADE)
     group_num = models.IntegerField()
-    group_name = models.CharField(max_length=50)
+    group_name = models.CharField(max_length=100)
     group_tax = models.DecimalField(max_digits=19,decimal_places=2,)
     item_num = models.IntegerField()
     product = models.ForeignKey(Product,on_delete=models.RESTRICT)
     product_name = models.CharField(max_length=150)
-    product_detail = models.TextField(max_length=150,null=True)
-    product_remarks = models.TextField(max_length=150,null=True)
+    product_detail = models.TextField(max_length=250,null=True)
+    product_remarks = models.TextField(max_length=200,null=True)
     quantity = models.IntegerField()
     weight = models.DecimalField(max_digits=19,decimal_places=2,)
     price = models.DecimalField(max_digits=19,decimal_places=2,)

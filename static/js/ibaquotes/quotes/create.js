@@ -23,18 +23,22 @@ var app = new Vue({
         configData: configData,
         prodId: '',
         prodDetail: '',
+        prodRemarks: '',
         prodRefPrice: '',
         prodPrice: '',
         prodQuantity: '',
+        prodNewId: 0,
         prodGroup: '',
         products: products,
         inputGroupName: '',
         inputGroupTax: 0,
+        inputEditGroupName: '',
+        inputEditTaxPercent: 0,
         groups: [],
         subtotal: 0,
         totalWeight: 0,
         total: 0,
-        taxes: '',
+        taxes: ''
     },
     methods: {
 
@@ -65,6 +69,24 @@ var app = new Vue({
 
             return;
         },
+        loadEditGroup(groupName,GroupTaxPercent) {
+
+            this.inputEditGroupName = groupName;
+            this.inputEditTaxPercent = GroupTaxPercent;
+        },
+        editGroup(id) {
+
+            position = this.getGroupPosition(id);
+
+            this.groups[position].name = this.inputEditGroupName ;
+            this.groups[position].taxPercentage = this.inputEditTaxPercent;
+            this.clearEditGroupInput();
+        },
+        clearEditGroupInput() {
+
+            this.inputEditGroupName = '';
+            this.inputEditTaxPercent = 0;
+        },
         removeGroup(id) {
 
             position = this.getGroupPosition(id);
@@ -91,6 +113,7 @@ var app = new Vue({
 
             product['id'] = this.groups[groupPositon].products.length + 1;
             product['detail'] = this.prodDetail;
+            product['remarks'] = this.prodRemarks;
             product['weight'] = this.prodQuantity * product.fields.weight;
             product['quantity'] = this.prodQuantity;
             product['price'] = this.prodPrice;
@@ -100,6 +123,7 @@ var app = new Vue({
             this.groups[groupPositon].products.push(product);
             this.updateTotals();
             this.clearProdFields();
+            this.reOrderProductFromGroupPosition(groupPositon);
         },
         removeProductFromGroup(groupId, prodId) {
 
@@ -117,11 +141,7 @@ var app = new Vue({
         },
         reOrderProductFromGroupPosition(groupPosition) {
 
-
-            for (var i = 0; i < this.groups[groupPosition].products.length; i++) {
-
-                this.groups[groupPosition].products[i].id = i + 1;
-            }
+            this.groups[groupPosition].products.sort((a, b) => parseInt(a.id) - parseInt(b.id)); 
         },
         reOrderGroupPosition() {
 
@@ -129,6 +149,15 @@ var app = new Vue({
 
                 this.groups[i].id = i + 1;
             }
+        },
+        updateProductId(event,groupId,prodId) {
+
+            event.preventDefault();
+            groupPos = this.getGroupPosition(groupId);
+            productPos = this.getProductPosInGroupId(groupId,prodId);
+            this.groups[groupPos].products[productPos].id = event.target.value;
+            this.reOrderProductFromGroupPosition(groupPos);
+
         },
         updateQuotesAgreement() {
             var quoteAgreement = this.quotesAgreements[this.getQuoteAgreementPosition(this.quoteAgreeId)]
@@ -217,6 +246,21 @@ var app = new Vue({
             return;
         },
         // Get Group position in this.groups
+        getProductPosInGroupId(groupId,id) {
+
+            groupPos = this.getGroupPosition(groupId);
+            var products = this.groups[groupPos].products;
+            for (var i = 0; i < products.length; i++) {
+
+                if (products[i].id == id) {
+
+                    return i;
+                }
+            }
+            alert('ERROR: Product position not found on Group');
+            return;
+
+        },
         getQuoteAgreementPosition(id) {
 
             for (var i = 0; this.quotesAgreements.length; i++) {
@@ -232,6 +276,7 @@ var app = new Vue({
 
             var prodPositon = this.getProductPosition(prodId);
             this.prodDetail = this.products[prodPositon].fields.detail;
+            this.prodRemarks = this.products[prodPositon].fields.remarks;
             this.prodRefPrice = this.products[prodPositon].fields.price;
         },
         // Clear Group Input Fields

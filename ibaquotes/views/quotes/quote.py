@@ -28,7 +28,9 @@ def quote_list(request):
 def quote_create(request):
 
     clients = serializers.serialize('json',Client.objects.all())
-    products = serializers.serialize('json',Product.objects.prefetch_related('status').all())
+    products = Product.objects.select_related('status').all()
+    products = serializers.serialize('json',products)
+
     quotesAgreements = serializers.serialize('json',QuotesAgreement.objects.all())
     paymentConditions = serializers.serialize('json',PaymentCondition.objects.all())
     shippingTerms = serializers.serialize('json',ShippingTerm.objects.all())
@@ -120,7 +122,7 @@ def quote_store(request):
                     product_id = product['pk'],
                     product_name = product['fields']['name'],
                     product_detail = product['detail'],
-                    #product_remarks = product['remarks'],
+                    product_remarks = product['remarks'],
                     quantity = product['quantity'],
                     weight = product['fields']['weight'],
                     price = product['price'],
@@ -260,7 +262,7 @@ def quote_update(request,id):
                     product_id = product['pk'],
                     product_name = product['fields']['name'],
                     product_detail = product['detail'],
-                    #product_remarks = product['remarks'],
+                    product_remarks = product['remarks'],
                     quantity = product['quantity'],
                     weight = product['fields']['weight'],
                     price = product['price'],
@@ -379,7 +381,7 @@ def quote_copy_save(request,id):
                     product_id = product['pk'],
                     product_name = product['fields']['name'],
                     product_detail = product['detail'],
-                    #product_remarks = product['remarks'],
+                    product_remarks = product['remarks'],
                     quantity = product['quantity'],
                     weight = product['fields']['weight'],
                     price = product['price'],

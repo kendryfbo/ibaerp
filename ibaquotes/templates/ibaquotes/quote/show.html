@@ -241,7 +241,12 @@ Show Quotation
                                                 </td>
                                                 <td class="align-middle text-center">{{detail.product.pdid}}</td>
                                                 <td class="align-middle text-center">{{detail.product.name}}</td>
-                                                <td class="align-middle text-left"><h6>{{detail.product_detail|safe}}</h6></td>
+                                                <td class="align-middle text-left">
+                                                 <p><b>Details:</b></p>
+                                                <h6>{{detail.product_detail|safe}}</h6>
+                                                  <p><b>Remarks:</b></p>
+                                                <h6>{{detail.product_remarks|safe}}</h6>
+                                                </td>
                                                 <td class="align-middle text-center">{{detail.product.weight}}</td>
                                                 <td class="align-middle text-center">{{detail.quantity}}</td>
                                                 <td class="align-middle text-center">

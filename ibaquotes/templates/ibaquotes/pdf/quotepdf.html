@@ -323,7 +323,7 @@
                        </tr>
                        <tr style="background-color=rgb(204,255,204);">
                             <td width="80%" style="padding-top: 5px;">TOTAL:</td>
-                            <td width="10%" style="padding-top: 5px;"></td>
+                            <td width="10%" style="padding-top: 5px;" class="text-right">{{quote.currency.symbol}}</td>
                             <td width="10%" style="padding-top: 5px;" class="text-right">{{quote.total|intcomma}}</td>
                        </tr>
                     </tbody>
@@ -370,7 +370,11 @@
                                 {% endif  %}
                             </td>
                             <td class="align-middle text-left">
+                                <p><b>Details:</b></p>
                                 {{detail.product_detail|safe}}
+                                <br>
+                                 <p><b>Remarks:</b></p>
+                                {{detail.product_remarks|safe}}
                             </td>
                             <td class="align-top text-center">{{detail.quantity}}</td>
                             <td class="align-top text-center">{{detail.price|intcomma}}</td>

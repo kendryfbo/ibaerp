@@ -385,6 +385,8 @@ var app = new Vue({
             this.prodDetail = '';
             this.prodQuantity = '';
             this.prodPrice = '';
+            this.prodRefPrice = '';
+            this.prodRemarks = '';
             this.prodGroup = '';
         },
         // validate products inputs

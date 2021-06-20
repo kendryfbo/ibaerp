@@ -258,7 +258,7 @@ Create Quotation
                                         <label class="text-primary">Group: [[group.id]] </label>
                                     </div>
 
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-3">
                                         <label class="text-primary"> [[group.name]] </label>
                                     </div>
                                     
@@ -267,7 +267,7 @@ Create Quotation
                                         :data-target="'#collapseGroup'+group.id" v-on:click="loadEditGroup(group.name,group.taxPercentage)"><i class="fas fa-edit"></i>Edit</button>
                                     </div>
 
-                                    <div class="form-inline col-sm-2 offset-md-2 text-right">
+                                    <div class="form-inline col-sm-2 offset-md-3 text-right">
                                         <label class="col-form-label col-form-label-lg">Group Tax: </label>
                                         <label class="text-primary font-weight-bold col-form-label col-form-label-lg">[[group.taxPercentage]]% </label>
                                     </div>
@@ -379,9 +379,9 @@ Create Quotation
                                             <tbody>
                                     
                                                 <tr v-for="prod in group.products">
-                                                    <td class="align-middle">
-                                                        <div class="form-inline">
-                                                            <div class="form-group input-group input-group-sm">
+                                                    <td class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group input-group-sm">
                                                                 <div class="input-group-prepend">
                                                                     <button type="button" class="btn btn-light btn-small"
                                                                         v-on:click="removeProductFromGroup(group.id,prod.id)">
@@ -401,9 +401,9 @@ Create Quotation
                                                     <td class="align-middle text-center">[[prod.fields.pdid]]</td>
                                                     <td class="align-middle text-center">[[prod.fields.name]]</td>
                                                     <td class="align-middle text-left">
-                                                        <p><b>Details:</b></p>
+                                                        <p v-if="prod.detail"><b>Details:</b></p>
                                                         <p v-html="prod.detail"></p>
-                                                        <p><b>Remarks:</b></p>
+                                                        <p v-if="prod.remarks"><b>Remarks:</b></p>
                                                         <p v-html="prod.remarks"></p>
                                                     </td>
                                                     <td class="align-middle text-center">[[prod.fields.weight]]</td>

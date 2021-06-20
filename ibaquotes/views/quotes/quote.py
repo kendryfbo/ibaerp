@@ -15,6 +15,7 @@ from ibaquotes.models.product import Product
 from ibaquotes.models.config import ConfigData
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from wkhtmltopdf.views import PDFTemplateView
 
 def quote_list(request):
 

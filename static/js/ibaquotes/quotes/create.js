@@ -291,6 +291,8 @@ var app = new Vue({
             this.prodId = '';
             this.prodDetail = '';
             this.prodQuantity = '';
+            this.prodRefPrice = '';
+            this.prodRemarks = '';
             this.prodPrice = '';
             this.prodGroup = '';
         },
